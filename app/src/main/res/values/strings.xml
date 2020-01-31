@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Birdie Disc Golf</string>
+    <string name="newGameButton">New Round</string>
+    <string name="gamesButton">Games</string>
+</resources>
