@@ -1,22 +1,34 @@
 package com.example.birdiediscgolf
 
-//import androidx.annotation.NonNull
-//import androidx.room.ColumnInfo
-//import androidx.room.Entity
-//import androidx.room.PrimaryKey
-//import java.util.*
-//
-//@Entity(tableName = "courses")
-//data class Course (
-//    @PrimaryKey(autoGenerate = true) private var id: Int = 0,
-//    @ColumnInfo(name = "courseName") var courseName: String = "",
-//    @ColumnInfo(name = "createdAt") var createdAt: String =""
-//    ) {
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "courses")
+data class Course (
+    @PrimaryKey
+    val uuid: String,
 
-//    private var createdAt: String = ""
-//
-//    private var name: String = courseName
-//
-//    private var uuid: UUID = UUID.randomUUID()
-//}
+    val id: Int,
+
+    val name: String,
+
+    val createdAt: Int
+    )
+
+@Entity(tableName = "holes")
+data class Hole (
+    @PrimaryKey
+    val uuid: String,
+
+    val courseUuid: String,
+
+    val createdAt: Int,
+
+    val hole: Int,
+
+    val id: Int,
+
+    val par: Int,
+
+    val updatedAt: Int?
+)
