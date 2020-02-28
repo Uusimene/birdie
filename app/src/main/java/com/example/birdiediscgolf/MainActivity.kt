@@ -2,22 +2,29 @@ package com.example.birdiediscgolf
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.DocumentsContract
+import android.provider.OpenableColumns
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.net.toFile
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.FileNotFoundException
+import java.util.zip.ZipFile
 
 class MainActivity : AppCompatActivity() {
 
 //    private val newWordActivityRequestCode = 1
 //    private lateinit var wordViewModel: TestViewModel
+    val PICK_ZIP_FILE =1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +72,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.importData -> {
-                Toast.makeText(applicationContext, "Import Data Pressed", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(applicationContext, "Import Data Pressed", Toast.LENGTH_SHORT).show()
+                openFile(Uri.EMPTY)
                 return true
             }
             R.id.exportData -> {
@@ -88,6 +96,38 @@ class MainActivity : AppCompatActivity() {
     fun viewPastGames(view: View){
         val intent = Intent(this, GamesListActivity::class.java)
         startActivity(intent)
+    }
+
+    fun openFile(pickerInitialUri: Uri){
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/zip"
+        }
+        startActivityForResult(intent, PICK_ZIP_FILE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_ZIP_FILE)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
+                //val file = data?.data?.toFile()
+
+                val path = data?.data?.path
+                val uri = data?.dataString
+                var text : String
+                try {
+                    val zipfile = ZipFile(uri)
+                    val size = zipfile.size()
+                    text = "$size.toString() files in $uri"
+                } catch (e: FileNotFoundException) {
+                    text = "File at $uri couldn't be opened"
+                }
+
+                Toast.makeText(applicationContext, text, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 }
