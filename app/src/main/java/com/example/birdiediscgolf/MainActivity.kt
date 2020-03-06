@@ -1,30 +1,26 @@
 package com.example.birdiediscgolf
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.DocumentsContract
-import android.provider.OpenableColumns
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.core.net.toFile
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.io.FileNotFoundException
-import java.util.zip.ZipFile
+import androidx.core.content.ContextCompat
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.*
 
 class MainActivity : AppCompatActivity() {
 
 //    private val newWordActivityRequestCode = 1
 //    private lateinit var wordViewModel: TestViewModel
-    val PICK_ZIP_FILE =1
+    val PICK_JSON_FILES =1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId) {
             R.id.importData -> {
                 //Toast.makeText(applicationContext, "Import Data Pressed", Toast.LENGTH_SHORT).show()
-                openFile(Uri.EMPTY)
+                openFile()
                 return true
             }
             R.id.exportData -> {
@@ -98,34 +94,101 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun openFile(pickerInitialUri: Uri){
+    private fun openFile(){
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = "application/zip"
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            type = "application/json"
         }
-        startActivityForResult(intent, PICK_ZIP_FILE)
+        startActivityForResult(intent, PICK_JSON_FILES)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_ZIP_FILE)
+        if (requestCode == PICK_JSON_FILES)
         {
             if (resultCode == Activity.RESULT_OK)
             {
-                //val file = data?.data?.toFile()
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+                    Toast.makeText(applicationContext, "No permission", Toast.LENGTH_LONG).show()
+                    return
+                } else {
+                    val path = data?.data?.path
+                    var uri: Uri? = null
 
-                val path = data?.data?.path
-                val uri = data?.dataString
-                var text : String
-                try {
-                    val zipfile = ZipFile(uri)
-                    val size = zipfile.size()
-                    text = "$size.toString() files in $uri"
-                } catch (e: FileNotFoundException) {
-                    text = "File at $uri couldn't be opened"
+                    data?.let {
+                        val paths : MutableList<Uri> = ArrayList()
+                        val clipData = it.clipData
+                        val clipSize = clipData?.itemCount
+                        if (clipSize != null && clipSize > 0)
+                        {
+                            for (i in 0 until clipSize){
+                                uri = clipData.getItemAt(i)?.uri
+                                if (uri != null)
+                                {
+                                    paths.add(uri as Uri)
+                                }
+
+                            }
+                        }
+
+                        var text: String
+                        var players: JSONArray
+                        var courses: JSONArray
+                        var holes: JSONArray
+                        var games: JSONArray
+                        var gamePlayers: JSONArray
+                        var gameHoles: JSONArray
+                        var scores: JSONArray
+
+                        for (i in 0 until paths.size)
+                        {
+                            try {
+                                if (uri == null)
+                                {
+                                    return
+                                }
+                                val inputStream = contentResolver.openInputStream(paths[i])
+                                if (inputStream == null)
+                                {
+                                    Toast.makeText(applicationContext, "Input stream null at ${paths[i]}", Toast.LENGTH_LONG).show()
+                                    return
+                                }
+                                val reader = BufferedReader(InputStreamReader(inputStream))
+                                val stringBuilder = StringBuilder()
+
+                                var currentLine = reader.readLine()
+
+                                while (currentLine != null)
+                                {
+                                    stringBuilder.append(currentLine + "\n")
+                                    currentLine = reader.readLine()
+                                }
+                                inputStream.close()
+                                text = stringBuilder.toString()
+                                val jsonObject = JSONObject(text)
+                                val keys = jsonObject.keys()
+                                keys.forEach {
+                                    when (it) {
+                                        "players" -> players = jsonObject.getJSONArray(it)
+                                        "courses" -> courses = jsonObject.getJSONArray(it)
+                                        "holes" -> holes = jsonObject.getJSONArray(it)
+                                        "games" -> games = jsonObject.getJSONArray(it)
+                                        "gamePlayers" -> gamePlayers = jsonObject.getJSONArray(it)
+                                        "gameHoles" -> gameHoles = jsonObject.getJSONArray(it)
+                                        "scores" -> scores = jsonObject.getJSONArray(it)
+                                    }
+                                }
+
+                            } catch (e: FileNotFoundException) {
+                                text = "File at ${paths[i]} couldn't be opened"
+                            }
+                        }
+
+
+                        Toast.makeText(applicationContext, "ok", Toast.LENGTH_LONG).show()
+                    }
                 }
-
-                Toast.makeText(applicationContext, text, Toast.LENGTH_LONG).show()
             }
         }
     }
