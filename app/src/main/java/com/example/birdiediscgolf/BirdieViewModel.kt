@@ -16,7 +16,9 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
 
     init {
         val coursesDao = BirdieRoomDatabase.getDatabase(application, viewModelScope).coursesDao()
-        repository = BirdieRepository(coursesDao)
+        val playersDao = BirdieRoomDatabase.getDatabase(application, viewModelScope).playersDao()
+        val gamesDao = BirdieRoomDatabase.getDatabase(application, viewModelScope).gamesDao()
+        repository = BirdieRepository(coursesDao, playersDao, gamesDao)
         allCourses = repository.allCourses
     }
 
@@ -26,6 +28,26 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
 
     fun insertHole(hole: Hole) = viewModelScope.launch {
         repository.insertHole(hole)
+    }
+
+    fun insertPlayer(player: Player) = viewModelScope.launch {
+        repository.insertPlayer(player)
+    }
+
+    fun insertGame(game: Game) = viewModelScope.launch {
+        repository.insertGame(game)
+    }
+
+    fun insertGamePlayer(gamePlayer: GamePlayer) = viewModelScope.launch {
+        repository.insertGamePlayer(gamePlayer)
+    }
+
+    fun insertGameHole(gameHole: GameHole) = viewModelScope.launch {
+        repository.insertGameHole(gameHole)
+    }
+
+    fun insertScore(score: Score) = viewModelScope.launch {
+        repository.insertScore(score)
     }
 
     fun importCourses(courses: JSONArray) {

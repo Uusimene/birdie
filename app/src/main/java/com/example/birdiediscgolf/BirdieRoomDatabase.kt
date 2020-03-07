@@ -15,6 +15,8 @@ import kotlinx.coroutines.CoroutineScope
 public abstract class BirdieRoomDatabase : RoomDatabase() {
 
     abstract fun coursesDao(): CoursesDao
+    abstract fun playersDao(): PlayersDao
+    abstract fun gamesDao(): GamesDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -33,7 +35,7 @@ public abstract class BirdieRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     BirdieRoomDatabase::class.java,
-                    "test_database"
+                    "birdie_database"
                 ).build()
                 INSTANCE = instance
                 return instance
