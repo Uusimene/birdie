@@ -10,15 +10,15 @@ data class Game (
 
     val courseUuid: String,
 
-    val createdAt: Int,
+    val createdAt: Long,
 
-    val endedAt: Int,
+    val endedAt: Long,
 
     val id: Int,
 
-    val StartedAt: Int,
+    val StartedAt: Long,
 
-    val updatedAt: Int
+    val updatedAt: Long
 )
 
 @Entity(tableName = "gamePlayers")
@@ -28,7 +28,7 @@ data class GamePlayer (
 
     val gameUuid: String,
 
-    val createdAt: Int,
+    val createdAt: Long,
 
     val id: Int,
 
@@ -42,7 +42,7 @@ data class GameHole (
 
     val gameUuid: String,
 
-    val createdAt: Int,
+    val createdAt: Long,
 
     val hole: Int,
 
@@ -56,7 +56,7 @@ data class Score (
     @PrimaryKey
     val uuid: String,
 
-    val createdAt: Int,
+    val createdAt: Long,
 
     val gameHoleUuid: String,
 

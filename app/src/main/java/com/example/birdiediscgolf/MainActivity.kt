@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
@@ -20,11 +21,13 @@ class MainActivity : AppCompatActivity() {
 
 //    private val newWordActivityRequestCode = 1
 //    private lateinit var wordViewModel: TestViewModel
+    private lateinit var birdieViewModel: BirdieViewModel
     val PICK_JSON_FILES =1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        birdieViewModel = ViewModelProvider(this).get(BirdieViewModel::class.java)
 //        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
 //        val adapter = TestListAdapter(this)
 //        recyclerView.adapter = adapter
@@ -171,7 +174,10 @@ class MainActivity : AppCompatActivity() {
                                 keys.forEach {
                                     when (it) {
                                         "players" -> players = jsonObject.getJSONArray(it)
-                                        "courses" -> courses = jsonObject.getJSONArray(it)
+                                        "courses" -> {
+                                            courses = jsonObject.getJSONArray(it)
+                                            birdieViewModel.importCourses(courses)
+                                        }
                                         "holes" -> holes = jsonObject.getJSONArray(it)
                                         "games" -> games = jsonObject.getJSONArray(it)
                                         "gamePlayers" -> gamePlayers = jsonObject.getJSONArray(it)
@@ -184,7 +190,6 @@ class MainActivity : AppCompatActivity() {
                                 text = "File at ${paths[i]} couldn't be opened"
                             }
                         }
-
 
                         Toast.makeText(applicationContext, "ok", Toast.LENGTH_LONG).show()
                     }

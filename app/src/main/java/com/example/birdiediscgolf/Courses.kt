@@ -12,7 +12,7 @@ data class Course (
 
     val name: String,
 
-    val createdAt: Int
+    val createdAt: Long
     )
 
 @Entity(tableName = "holes")
@@ -22,7 +22,7 @@ data class Hole (
 
     val courseUuid: String,
 
-    val createdAt: Int,
+    val createdAt: Long,
 
     val hole: Int,
 
@@ -30,5 +30,5 @@ data class Hole (
 
     val par: Int,
 
-    val updatedAt: Int?
+    val updatedAt: Long?
 )

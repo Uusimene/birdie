@@ -12,7 +12,7 @@ class TestListAdapter internal constructor(
 ) : RecyclerView.Adapter<TestListAdapter.WordViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var words = emptyList<Word>() // Cached copy of words
+    private var words = emptyList<Course>() // Cached copy of words
 
     inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val wordItemView: TextView = itemView.findViewById(R.id.textView)
@@ -25,10 +25,10 @@ class TestListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val current = words[position]
-        holder.wordItemView.text = current.word
+        holder.wordItemView.text = current.name
     }
 
-    internal fun setWords(words: List<Word>) {
+    internal fun setWords(words: List<Course>) {
         this.words = words
         notifyDataSetChanged()
     }

@@ -8,7 +8,7 @@ data class Player (
     @PrimaryKey
     val uuid: String,
 
-    val createdAt: Int,
+    val createdAt: Long,
 
     val id: Int,
 
@@ -18,5 +18,5 @@ data class Player (
 
     val profileImageFilename: String?,
 
-    val updatedAt: Int?
+    val updatedAt: Long?
 )
