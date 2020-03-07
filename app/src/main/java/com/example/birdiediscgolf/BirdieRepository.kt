@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 class BirdieRepository(private val coursesDao: CoursesDao, private val playersDao: PlayersDao, private val gamesDao: GamesDao) {
 
     val allCourses: LiveData<List<Course>> = coursesDao.getAlphabetizedCourses()
+    val allGames: LiveData<List<Game>> = gamesDao.getAllGames()
+    val gameCount: LiveData<Int> = gamesDao.getGameCount()
 
     suspend fun insertCourse(course: Course) {
         coursesDao.insertCourse(course)
@@ -37,4 +39,5 @@ class BirdieRepository(private val coursesDao: CoursesDao, private val playersDa
     suspend fun insertScore(score: Score) {
         gamesDao.insertScore(score)
     }
+
 }

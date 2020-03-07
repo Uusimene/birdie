@@ -10,8 +10,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.json.JSONArray
 import org.json.JSONObject
@@ -28,6 +30,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         birdieViewModel = ViewModelProvider(this).get(BirdieViewModel::class.java)
+        birdieViewModel.gameCount.observe(this, Observer { count ->
+            count?.let {
+                val gamesButton: Button = findViewById(R.id.gamesButton)
+                val buttonText = "Games $it"
+                gamesButton.text = buttonText}
+        })
 //        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
 //        val adapter = TestListAdapter(this)
 //        recyclerView.adapter = adapter
@@ -116,7 +124,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "No permission", Toast.LENGTH_LONG).show()
                     return
                 } else {
-                    val path = data?.data?.path
                     var uri: Uri? = null
 
                     data?.let {
@@ -173,7 +180,10 @@ class MainActivity : AppCompatActivity() {
                                 val keys = jsonObject.keys()
                                 keys.forEach {
                                     when (it) {
-                                        "players" -> players = jsonObject.getJSONArray(it)
+                                        "players" -> {
+                                            players = jsonObject.getJSONArray(it)
+                                            birdieViewModel.importPlayers(players)
+                                        }
                                         "courses" -> {
                                             courses = jsonObject.getJSONArray(it)
                                             birdieViewModel.importCourses(courses)
@@ -182,10 +192,22 @@ class MainActivity : AppCompatActivity() {
                                             holes = jsonObject.getJSONArray(it)
                                             birdieViewModel.importHoles(holes)
                                         }
-                                        "games" -> games = jsonObject.getJSONArray(it)
-                                        "gamePlayers" -> gamePlayers = jsonObject.getJSONArray(it)
-                                        "gameHoles" -> gameHoles = jsonObject.getJSONArray(it)
-                                        "scores" -> scores = jsonObject.getJSONArray(it)
+                                        "games" -> {
+                                            games = jsonObject.getJSONArray(it)
+                                            birdieViewModel.importGames(games)
+                                        }
+                                        "gamePlayers" -> {
+                                            gamePlayers = jsonObject.getJSONArray(it)
+                                            birdieViewModel.importGamePlayers(gamePlayers)
+                                        }
+                                        "gameHoles" -> {
+                                            gameHoles = jsonObject.getJSONArray(it)
+                                            birdieViewModel.importGameHoles(gameHoles)
+                                        }
+                                        "scores" -> {
+                                            scores = jsonObject.getJSONArray(it)
+                                            birdieViewModel.importScores(scores)
+                                        }
                                     }
                                 }
 
