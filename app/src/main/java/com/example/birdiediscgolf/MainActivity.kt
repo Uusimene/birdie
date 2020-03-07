@@ -178,7 +178,10 @@ class MainActivity : AppCompatActivity() {
                                             courses = jsonObject.getJSONArray(it)
                                             birdieViewModel.importCourses(courses)
                                         }
-                                        "holes" -> holes = jsonObject.getJSONArray(it)
+                                        "holes" -> {
+                                            holes = jsonObject.getJSONArray(it)
+                                            birdieViewModel.importHoles(holes)
+                                        }
                                         "games" -> games = jsonObject.getJSONArray(it)
                                         "gamePlayers" -> gamePlayers = jsonObject.getJSONArray(it)
                                         "gameHoles" -> gameHoles = jsonObject.getJSONArray(it)

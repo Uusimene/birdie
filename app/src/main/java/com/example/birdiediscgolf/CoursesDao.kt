@@ -15,6 +15,15 @@ interface CoursesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertHole(hole: Hole)
 
-    @Query("SELECT * from courses ORDER BY name ASC")
+    @Query("SELECT * FROM courses ORDER BY name ASC")
     fun getAlphabetizedCourses(): LiveData<List<Course>>
+
+    @Query("SELECT * FROM holes WHERE courseUuid = :courseUuid ORDER BY hole ASC")
+    fun getCourseHoles(courseUuid: String): List<Hole>
+
+    @Query("DELETE FROM courses")
+    suspend fun deleteAllCourses()
+
+    @Query("DELETE FROM holes")
+    suspend fun deleteAllHoles()
 }
