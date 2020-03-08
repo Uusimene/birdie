@@ -17,12 +17,12 @@ class CourseSelectActivity : AppCompatActivity() {
 
         birdieViewModel = ViewModelProvider(this).get(BirdieViewModel::class.java)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = TestListAdapter(this)
+        val adapter = CourseListAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         birdieViewModel.allCourses.observe(this, Observer { words ->
-            words?.let { adapter.setWords(it) }
+            words?.let { adapter.setCourses(it) }
         })
     }
 }
