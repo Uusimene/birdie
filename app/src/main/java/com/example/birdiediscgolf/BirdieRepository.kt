@@ -6,6 +6,9 @@ class BirdieRepository(private val coursesDao: CoursesDao, private val playersDa
 
     val allCourses: LiveData<List<Course>> = coursesDao.getAlphabetizedCourses()
     val allGames: LiveData<List<Game>> = gamesDao.getAllGames()
+    val allGameHoles: LiveData<List<GameHole>> = gamesDao.getAllGameHoles()
+    val allScores: LiveData<List<Score>> = gamesDao.getAllScores()
+
     val gameCount: LiveData<Int> = gamesDao.getGameCount()
 
     suspend fun insertCourse(course: Course) {

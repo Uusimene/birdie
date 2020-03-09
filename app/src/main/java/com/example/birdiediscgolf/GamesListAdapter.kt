@@ -12,6 +12,7 @@ class GamesListAdapter internal constructor (context: Context) : RecyclerView.Ad
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var games = emptyList<Game>() // Cached copies
+    private var gameHoles = emptyList<GameHole>()
     private var gamePlayers = emptyList<GamePlayer>()
     private var scores = emptyList<Score>()
     private var courses = emptyList<Course>()
@@ -20,25 +21,28 @@ class GamesListAdapter internal constructor (context: Context) : RecyclerView.Ad
 
     inner class GameInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val wordItemView: TextView = itemView.findViewById(R.id.textView)
+        val dateItemView: TextView = itemView.findViewById(R.id.dateTextView)
+        val scoreItemView: TextView = itemView.findViewById(R.id.scoreTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameInfoViewHolder {
-        val itemView = inflater.inflate(R.layout.recyclerview_item, parent, false)
+        val itemView = inflater.inflate(R.layout.recyclerview_item_game, parent, false)
         return GameInfoViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: GameInfoViewHolder, position: Int) {
         val game = games[position]
         val course = courses.find { course -> course.uuid == game.courseUuid }
-        var text: String = "Bork"
+        val gameScores = scores.filter { score -> score.gameUuid == game.uuid }
+        val holes = gameHoles.filter { gameHole -> gameHole.gameUuid == game.uuid }
         if (course != null){
             val courseName = course.name
             val endedAt = Timestamp(game.endedAt).toString()
-            text = "$courseName $endedAt"
+            val gameScore = getGameScore(holes, gameScores)
+            holder.wordItemView.text = courseName
+            holder.dateItemView.text = endedAt
+            holder.scoreItemView.text = gameScore.toString()
         }
-
-
-        holder.wordItemView.text = text
     }
 
     internal fun setGames(games: List<Game>) {
@@ -71,5 +75,22 @@ class GamesListAdapter internal constructor (context: Context) : RecyclerView.Ad
         notifyDataSetChanged()
     }
 
+    internal fun setGameHoles(gameHoles: List<GameHole>) {
+        this.gameHoles = gameHoles
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount() = games.size
+
+    private fun getGameScore(holes: List<GameHole>, gameScores: List<Score>) : Int {
+        var result = 0
+
+        for (i in gameScores.indices)
+        {
+            val hole = holes.find { hole -> hole.uuid == gameScores[i].gameHoleUuid }
+            result += gameScores[i].score - hole!!.par
+        }
+
+        return result
+    }
 }

@@ -28,5 +28,14 @@ class GamesListActivity : AppCompatActivity() {
         birdieViewModel.allCourses.observe(this, Observer { courses ->
             courses?.let { adapter.setCourses(it) }
         })
+
+        birdieViewModel.allGameHoles.observe(this, Observer { gameHoles ->
+            gameHoles?.let { adapter.setGameHoles(it) }
+        })
+
+        birdieViewModel.allScores.observe(this, Observer { scores ->
+            scores?.let { adapter.setScores(it) }
+        })
+
     }
 }
