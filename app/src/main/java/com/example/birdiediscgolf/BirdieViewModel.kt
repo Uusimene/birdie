@@ -16,6 +16,9 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
     val allGames: LiveData<List<Game>>
     val allGameHoles: LiveData<List<GameHole>>
     val allScores: LiveData<List<Score>>
+    val allGamePlayers: LiveData<List<GamePlayer>>
+    val allPlayers: LiveData<List<Player>>
+    val allHoles: LiveData<List<Hole>>
     val gameCount: LiveData<Int>
 
     init {
@@ -28,6 +31,9 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         gameCount = repository.gameCount
         allGameHoles = repository.allGameHoles
         allScores = repository.allScores
+        allGamePlayers = repository.allGamePlayers
+        allPlayers = repository.allPlayers
+        allHoles = repository.allHoles
     }
 
     fun insertCourse(course: Course) = viewModelScope.launch {
@@ -210,7 +216,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getCourseHoles(courseUuid: String): List<Hole> {
+    fun getCourseHoles(courseUuid: String): LiveData<List<Hole>> {
         return repository.getCourseHoles(courseUuid)
     }
 

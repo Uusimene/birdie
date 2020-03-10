@@ -2,22 +2,23 @@ package com.example.birdiediscgolf
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class GamesListActivity : AppCompatActivity() {
+class StatisticsActivity : AppCompatActivity() {
 
     private lateinit var birdieViewModel: BirdieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_games_list)
+        setContentView(R.layout.activity_statistics)
 
         birdieViewModel = ViewModelProvider(this).get(BirdieViewModel::class.java)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = GamesListAdapter(this)
+        val adapter = CourseListAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -45,5 +46,8 @@ class GamesListActivity : AppCompatActivity() {
             players?.let { adapter.setPlayers(it) }
         })
 
+        birdieViewModel.allHoles.observe(this, Observer { holes ->
+            holes?.let { adapter.setHoles(it) }
+        })
     }
 }

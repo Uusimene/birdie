@@ -5,9 +5,12 @@ import androidx.lifecycle.LiveData
 class BirdieRepository(private val coursesDao: CoursesDao, private val playersDao: PlayersDao, private val gamesDao: GamesDao) {
 
     val allCourses: LiveData<List<Course>> = coursesDao.getAlphabetizedCourses()
+    val allHoles: LiveData<List<Hole>> = coursesDao.getAllHoles()
     val allGames: LiveData<List<Game>> = gamesDao.getAllGames()
     val allGameHoles: LiveData<List<GameHole>> = gamesDao.getAllGameHoles()
     val allScores: LiveData<List<Score>> = gamesDao.getAllScores()
+    val allGamePlayers: LiveData<List<GamePlayer>> = gamesDao.getAllGamePlayers()
+    val allPlayers: LiveData<List<Player>> = playersDao.getPlayers()
 
     val gameCount: LiveData<Int> = gamesDao.getGameCount()
 
@@ -19,7 +22,7 @@ class BirdieRepository(private val coursesDao: CoursesDao, private val playersDa
         coursesDao.insertHole(hole)
     }
 
-    fun getCourseHoles(courseUuid: String): List<Hole> {
+    fun getCourseHoles(courseUuid: String): LiveData<List<Hole>> {
         return coursesDao.getCourseHoles(courseUuid)
     }
 

@@ -2,6 +2,7 @@
     <string name="app_name">Birdie</string>
     <string name="newGameButton">New Round</string>
     <string name="gamesButton">Games</string>
+    <string name="statsButton">Statistics</string>
     <string name="importData">Import Data</string>
     <string name="exportData">Export Data</string>
     <string name="hint_word">Word…</string>

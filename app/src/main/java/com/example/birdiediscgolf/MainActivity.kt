@@ -105,6 +105,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun viewStatistics(view: View){
+        val intent = Intent(this, StatisticsActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun openFile(){
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)

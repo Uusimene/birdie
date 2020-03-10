@@ -33,15 +33,24 @@ class GamesListAdapter internal constructor (context: Context) : RecyclerView.Ad
     override fun onBindViewHolder(holder: GameInfoViewHolder, position: Int) {
         val game = games[position]
         val course = courses.find { course -> course.uuid == game.courseUuid }
-        val gameScores = scores.filter { score -> score.gameUuid == game.uuid }
         val holes = gameHoles.filter { gameHole -> gameHole.gameUuid == game.uuid }
+        val filteredGamePlayers = gamePlayers.filter { gamePlayer -> gamePlayer.gameUuid == game.uuid }
+        val ownerPlayer = players.find { player -> player.owner == 1 } ?: return
+        val ownerGamePlayer = filteredGamePlayers.find { gamePlayer -> gamePlayer.playerUuid == ownerPlayer!!.uuid }
+        val gameScores = scores.filter { score -> score.gameUuid == game.uuid && score.gamePlayerUuid == ownerGamePlayer!!.uuid}
+
         if (course != null){
             val courseName = course.name
             val endedAt = Timestamp(game.endedAt).toString()
             val gameScore = getGameScore(holes, gameScores)
+            var scoreString = gameScore.toString()
+            if (gameScore > 0)
+            {
+                scoreString = "+$gameScore"
+            }
             holder.wordItemView.text = courseName
             holder.dateItemView.text = endedAt
-            holder.scoreItemView.text = gameScore.toString()
+            holder.scoreItemView.text = scoreString
         }
     }
 

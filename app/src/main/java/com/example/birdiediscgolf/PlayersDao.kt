@@ -1,5 +1,6 @@
 package com.example.birdiediscgolf
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,5 +13,5 @@ interface PlayersDao {
     suspend fun insertPlayer(player: Player)
 
     @Query("SELECT * FROM players ORDER BY name ASC")
-    fun getPlayers(): List<Player>
+    fun getPlayers(): LiveData<List<Player>>
 }

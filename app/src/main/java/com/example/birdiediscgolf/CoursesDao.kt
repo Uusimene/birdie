@@ -19,7 +19,10 @@ interface CoursesDao {
     fun getAlphabetizedCourses(): LiveData<List<Course>>
 
     @Query("SELECT * FROM holes WHERE courseUuid = :courseUuid ORDER BY hole ASC")
-    fun getCourseHoles(courseUuid: String): List<Hole>
+    fun getCourseHoles(courseUuid: String): LiveData<List<Hole>>
+
+    @Query("SELECT * FROM holes ORDER BY courseUuid ASC")
+    fun getAllHoles(): LiveData<List<Hole>>
 
     @Query("DELETE FROM courses")
     suspend fun deleteAllCourses()

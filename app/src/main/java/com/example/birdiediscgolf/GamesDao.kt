@@ -30,6 +30,9 @@ interface GamesDao {
     @Query("SELECT * FROM scores ORDER BY createdAt DESC")
     fun getAllScores(): LiveData<List<Score>>
 
+    @Query("SELECT * FROM gamePlayers ORDER BY createdAt DESC")
+    fun getAllGamePlayers(): LiveData<List<GamePlayer>>
+
     @Query("SELECT COUNT(*) FROM games")
     fun getGameCount(): LiveData<Int>
 }
