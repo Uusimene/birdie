@@ -36,8 +36,8 @@ class GamesListAdapter internal constructor (context: Context) : RecyclerView.Ad
         val holes = gameHoles.filter { gameHole -> gameHole.gameUuid == game.uuid }
         val filteredGamePlayers = gamePlayers.filter { gamePlayer -> gamePlayer.gameUuid == game.uuid }
         val ownerPlayer = players.find { player -> player.owner == 1 } ?: return
-        val ownerGamePlayer = filteredGamePlayers.find { gamePlayer -> gamePlayer.playerUuid == ownerPlayer!!.uuid }
-        val gameScores = scores.filter { score -> score.gameUuid == game.uuid && score.gamePlayerUuid == ownerGamePlayer!!.uuid}
+        val ownerGamePlayer = filteredGamePlayers.find { gamePlayer -> gamePlayer.playerUuid == ownerPlayer.uuid } ?: return
+        val gameScores = scores.filter { score -> score.gameUuid == game.uuid && score.gamePlayerUuid == ownerGamePlayer.uuid}
 
         if (course != null){
             val courseName = course.name
