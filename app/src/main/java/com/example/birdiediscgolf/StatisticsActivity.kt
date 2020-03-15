@@ -17,17 +17,20 @@ class StatisticsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_statistics)
 
         birdieViewModel = ViewModelProvider(this).get(BirdieViewModel::class.java)
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         val adapter = CourseListAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+
         birdieViewModel.allGames.observe(this, Observer { games ->
             games?.let { adapter.setGames(it) }
         })
 
-        birdieViewModel.allCourses.observe(this, Observer { courses ->
-            courses?.let { adapter.setCourses(it) }
+        birdieViewModel.allCourseAndHoles.observe(this, Observer { courseAndHoles ->
+            courseAndHoles?.let {
+                adapter.setCourseAndHoles(courseAndHoles) }
         })
 
         birdieViewModel.allGameHoles.observe(this, Observer { gameHoles ->
@@ -46,8 +49,5 @@ class StatisticsActivity : AppCompatActivity() {
             players?.let { adapter.setPlayers(it) }
         })
 
-        birdieViewModel.allHoles.observe(this, Observer { holes ->
-            holes?.let { adapter.setHoles(it) }
-        })
     }
 }

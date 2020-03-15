@@ -14,10 +14,10 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
     private var gameHoles = emptyList<GameHole>()
     private var gamePlayers = emptyList<GamePlayer>()
     private var scores = emptyList<Score>()
-    private var courses = emptyList<Course>()
-    private var holes = emptyList<Hole>()
+    private var courseAndHoles = emptyList<CourseAndHoles>()
     private var players = emptyList<Player>()
     private var records = mutableListOf<Int?>()
+    private lateinit var ownerUser: Player
 
     inner class CourseNameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val wordItemView: TextView = itemView.findViewById(R.id.textView)
@@ -29,7 +29,7 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: CourseNameViewHolder, position: Int) {
-        val course = courses[position]
+        val course = courseAndHoles[position].course ?: return
 
         val courseName = course.name
 
@@ -56,13 +56,8 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
         notifyDataSetChanged()
     }
 
-    internal fun setCourses(courses: List<Course>) {
-        this.courses = courses
-        notifyDataSetChanged()
-    }
-
-    internal fun setHoles(holes: List<Hole>) {
-        this.holes = holes
+    internal fun setCourseAndHoles(courses: List<CourseAndHoles>) {
+        this.courseAndHoles = courses
         notifyDataSetChanged()
     }
 
@@ -76,7 +71,7 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
         notifyDataSetChanged()
     }
 
-    override fun getItemCount() = courses.size
+    override fun getItemCount() = courseAndHoles.size
 
     private fun getGameScore(holes: List<GameHole>, gameScores: List<Score>) : Int {
         var result = 0
@@ -94,14 +89,14 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
         val ownerPlayer = players.find { player -> player.owner == 1 }
         if (records.isEmpty()) {
             val recordsResult = mutableListOf<Int?>()
-            for (i in courses.indices){
+            for (i in courseAndHoles.indices){
                 recordsResult.add(null)
             }
             records = recordsResult
         }
 
         val courseGames = games.filter { game -> game.courseUuid == course.uuid }
-        val courseHoleCount = holes.filter { hole -> hole.courseUuid == course.uuid }.size
+        val courseHoleCount = courseAndHoles[idx].holes?.filter { hole -> hole.courseUuid == course.uuid }?.size
 
         for (game in courseGames){
             val holes = gameHoles.filter { gameHole -> gameHole.gameUuid == game.uuid }
@@ -124,6 +119,10 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
 
         }
         return records[idx]
+    }
+
+    fun setOwnerPlayer(player: Player) {
+        this.ownerUser = player
     }
 
 }

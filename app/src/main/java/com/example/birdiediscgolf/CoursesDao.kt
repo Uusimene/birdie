@@ -19,7 +19,7 @@ interface CoursesDao {
     fun getAlphabetizedCourses(): LiveData<List<Course>>
 
     @Query("SELECT * FROM holes WHERE courseUuid = :courseUuid ORDER BY hole ASC")
-    fun getCourseHoles(courseUuid: String): LiveData<List<Hole>>
+    suspend fun getCourseHoles(courseUuid: String): List<Hole>
 
     @Query("SELECT * FROM holes ORDER BY courseUuid ASC")
     fun getAllHoles(): LiveData<List<Hole>>
@@ -29,4 +29,10 @@ interface CoursesDao {
 
     @Query("DELETE FROM holes")
     suspend fun deleteAllHoles()
+
+    //@Query("SELECT * FROM courses INNER JOIN holes ON courses.uuid = holes.courseUuid")
+    //@Query("SELECT courses.uuid AS cUuid, courses.id AS cId, courses.name AS cName, courses.createdAt AS cCreatedAt, holes.uuid AS hUuid, holes.courseUuid AS hCourseUuid, holes.createdAt AS hCreatedAt, holes.hole AS hHole, holes.id AS hId, holes.par AS hPar, holes.updatedAt AS hUpdatedAt FROM courses INNER JOIN holes ON courses.uuid = holes.courseUuid")
+    @Query("SELECT * FROM courses")
+    fun getAllCourseAndHoles(): LiveData<List<CourseAndHoles>>
+
 }

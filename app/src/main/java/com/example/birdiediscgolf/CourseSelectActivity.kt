@@ -21,8 +21,8 @@ class CourseSelectActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        birdieViewModel.allCourses.observe(this, Observer { words ->
-            words?.let { adapter.setCourses(it) }
-        })
+//        birdieViewModel.allCourses.observe(this, Observer { words ->
+//            words?.let { adapter.setCourses(it) }
+//        })
     }
 }

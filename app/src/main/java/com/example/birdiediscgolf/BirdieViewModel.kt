@@ -3,6 +3,7 @@ package com.example.birdiediscgolf
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -12,55 +13,58 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
 
     private val repository: BirdieRepository
 
-    val allCourses: LiveData<List<Course>>
+    //val allCourses: LiveData<List<Course>>
+    val allCourseAndHoles: LiveData<List<CourseAndHoles>>
     val allGames: LiveData<List<Game>>
     val allGameHoles: LiveData<List<GameHole>>
     val allScores: LiveData<List<Score>>
     val allGamePlayers: LiveData<List<GamePlayer>>
     val allPlayers: LiveData<List<Player>>
-    val allHoles: LiveData<List<Hole>>
+    //val allHoles: LiveData<List<Hole>>
     val gameCount: LiveData<Int>
+    private var ownerUserPlayer: Player? = null
 
     init {
         val coursesDao = BirdieRoomDatabase.getDatabase(application, viewModelScope).coursesDao()
         val playersDao = BirdieRoomDatabase.getDatabase(application, viewModelScope).playersDao()
         val gamesDao = BirdieRoomDatabase.getDatabase(application, viewModelScope).gamesDao()
         repository = BirdieRepository(coursesDao, playersDao, gamesDao)
-        allCourses = repository.allCourses
+        //allCourses = repository.allCourses
         allGames = repository.allGames
         gameCount = repository.gameCount
         allGameHoles = repository.allGameHoles
         allScores = repository.allScores
         allGamePlayers = repository.allGamePlayers
         allPlayers = repository.allPlayers
-        allHoles = repository.allHoles
+        allCourseAndHoles = repository.allCourseAndHoles
+        //allHoles = repository.allHoles
     }
 
-    fun insertCourse(course: Course) = viewModelScope.launch {
+    private fun insertCourse(course: Course) = viewModelScope.launch {
         repository.insertCourse(course)
     }
 
-    fun insertHole(hole: Hole) = viewModelScope.launch {
+    private fun insertHole(hole: Hole) = viewModelScope.launch {
         repository.insertHole(hole)
     }
 
-    fun insertPlayer(player: Player) = viewModelScope.launch {
+    private fun insertPlayer(player: Player) = viewModelScope.launch {
         repository.insertPlayer(player)
     }
 
-    fun insertGame(game: Game) = viewModelScope.launch {
+    private fun insertGame(game: Game) = viewModelScope.launch {
         repository.insertGame(game)
     }
 
-    fun insertGamePlayer(gamePlayer: GamePlayer) = viewModelScope.launch {
+    private fun insertGamePlayer(gamePlayer: GamePlayer) = viewModelScope.launch {
         repository.insertGamePlayer(gamePlayer)
     }
 
-    fun insertGameHole(gameHole: GameHole) = viewModelScope.launch {
+    private fun insertGameHole(gameHole: GameHole) = viewModelScope.launch {
         repository.insertGameHole(gameHole)
     }
 
-    fun insertScore(score: Score) = viewModelScope.launch {
+    private fun insertScore(score: Score) = viewModelScope.launch {
         repository.insertScore(score)
     }
 
@@ -216,8 +220,17 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getCourseHoles(courseUuid: String): LiveData<List<Hole>> {
+    suspend fun getCourseHoles(courseUuid: String): List<Hole> {
         return repository.getCourseHoles(courseUuid)
     }
 
+    fun getOwnerPlayer(): Player {
+        if (ownerUserPlayer == null) {
+            viewModelScope.launch {
+                ownerUserPlayer = repository.getOwnerPlayer()
+            }
+        }
+
+        return ownerUserPlayer!!
+    }
 }

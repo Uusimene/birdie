@@ -14,4 +14,7 @@ interface PlayersDao {
 
     @Query("SELECT * FROM players ORDER BY name ASC")
     fun getPlayers(): LiveData<List<Player>>
+
+    @Query("SELECT * FROM players WHERE owner = 1")
+    suspend fun getOwnerPlayer(): Player
 }
