@@ -1,12 +1,13 @@
 package com.example.birdiediscgolf
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 
 class CourseSelectActivity : AppCompatActivity() {
 
@@ -23,7 +24,10 @@ class CourseSelectActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         adapter.onItemClick = { courseAndHoles ->
-            Toast.makeText(applicationContext, courseAndHoles.course.name, Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, GameActivity::class.java)
+            val gson = Gson()
+            intent.putExtra("course", gson.toJson(courseAndHoles))
+            startActivity(intent)
         }
 
         birdieViewModel.allGamesData.observe(this, Observer { gamesData ->

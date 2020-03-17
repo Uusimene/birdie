@@ -69,6 +69,7 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
         for (i in gameScores.indices)
         {
             val hole = holes.find { hole -> hole.uuid == gameScores[i].gameHoleUuid }
+            val score = gameScores[i].score
             result += gameScores[i].score - hole!!.par
         }
 
@@ -89,7 +90,7 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
         val courseHoleCount = courseAndHoles[idx].holes.filter { hole -> hole.courseUuid == course.uuid }.size
 
         for (game in courseGames){
-            if (game.holes.size != courseHoleCount) {
+            if (game.scores.size != courseHoleCount) {
                 continue
             }
 

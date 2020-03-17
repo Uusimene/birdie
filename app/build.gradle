@@ -49,6 +49,9 @@ dependencies {
 // Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
+// Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 // UI
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
