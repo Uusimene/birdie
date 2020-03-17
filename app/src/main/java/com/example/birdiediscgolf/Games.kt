@@ -1,7 +1,9 @@
 package com.example.birdiediscgolf
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity(tableName = "games")
 data class Game (
@@ -68,3 +70,15 @@ data class Score (
 
     val score: Int
 )
+
+data class GameData (
+    @Embedded
+    val game: Game,
+    @Relation(parentColumn = "uuid", entityColumn = "gameUuid")
+    val players: List<GamePlayer>,
+    @Relation(parentColumn = "uuid", entityColumn = "gameUuid")
+    val holes: List<GameHole>,
+    @Relation(parentColumn = "uuid", entityColumn = "gameUuid")
+    val scores: List<Score>
+)
+

@@ -32,7 +32,7 @@ interface CoursesDao {
 
     //@Query("SELECT * FROM courses INNER JOIN holes ON courses.uuid = holes.courseUuid")
     //@Query("SELECT courses.uuid AS cUuid, courses.id AS cId, courses.name AS cName, courses.createdAt AS cCreatedAt, holes.uuid AS hUuid, holes.courseUuid AS hCourseUuid, holes.createdAt AS hCreatedAt, holes.hole AS hHole, holes.id AS hId, holes.par AS hPar, holes.updatedAt AS hUpdatedAt FROM courses INNER JOIN holes ON courses.uuid = holes.courseUuid")
-    @Query("SELECT * FROM courses")
+    @Query("SELECT * FROM courses ORDER BY courses.name ASC")
     fun getAllCourseAndHoles(): LiveData<List<CourseAndHoles>>
 
 }

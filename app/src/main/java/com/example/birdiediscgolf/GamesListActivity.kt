@@ -21,35 +21,21 @@ class GamesListActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        birdieViewModel.allGames.observe(this, Observer { games ->
-            games?.let { adapter.setGames(it) }
-        })
-
         birdieViewModel.allCourseAndHoles.observe(this, Observer { courseAndHoles ->
             courseAndHoles?.let {
-                var courses = mutableListOf<Course>()
+                val courses = mutableListOf<Course>()
                 for (item in it) {
-                    if (item.course != null) {
-                        courses.add(item.course)
-                    }
+                    courses.add(item.course)
                 }
                 adapter.setCourses(courses) }
         })
 
-        birdieViewModel.allGameHoles.observe(this, Observer { gameHoles ->
-            gameHoles?.let { adapter.setGameHoles(it) }
-        })
-
-        birdieViewModel.allScores.observe(this, Observer { scores ->
-            scores?.let { adapter.setScores(it) }
-        })
-
-        birdieViewModel.allGamePlayers.observe(this, Observer { gamePlayers ->
-            gamePlayers?.let { adapter.setGamePlayers(it) }
-        })
-
         birdieViewModel.allPlayers.observe(this, Observer { players ->
             players?.let { adapter.setPlayers(it) }
+        })
+
+        birdieViewModel.allGamesData.observe(this, Observer { gamesData ->
+            gamesData?.let { adapter.setGamesData(it) }
         })
 
     }

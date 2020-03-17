@@ -12,6 +12,7 @@ class BirdieRepository(private val coursesDao: CoursesDao, private val playersDa
     val allScores: LiveData<List<Score>> = gamesDao.getAllScores()
     val allGamePlayers: LiveData<List<GamePlayer>> = gamesDao.getAllGamePlayers()
     val allPlayers: LiveData<List<Player>> = playersDao.getPlayers()
+    val allGameData: LiveData<List<GameData>> = gamesDao.getAllGamesData()
 
     val gameCount: LiveData<Int> = gamesDao.getGameCount()
 

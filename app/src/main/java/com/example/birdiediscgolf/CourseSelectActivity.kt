@@ -2,6 +2,7 @@ package com.example.birdiediscgolf
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,8 +22,20 @@ class CourseSelectActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-//        birdieViewModel.allCourses.observe(this, Observer { words ->
-//            words?.let { adapter.setCourses(it) }
-//        })
+        adapter.onItemClick = { courseAndHoles ->
+            Toast.makeText(applicationContext, courseAndHoles.course.name, Toast.LENGTH_SHORT).show()
+        }
+
+        birdieViewModel.allGamesData.observe(this, Observer { gamesData ->
+            gamesData?.let { adapter.setGamesData(it)}
+        })
+
+        birdieViewModel.allCourseAndHoles.observe(this, Observer { courseAndHoles ->
+            courseAndHoles?.let { adapter.setCourseAndHoles(it) }
+        })
+
+        birdieViewModel.allPlayers.observe(this, Observer { players ->
+            players?.let { adapter.setPlayers(it) }
+        })
     }
 }

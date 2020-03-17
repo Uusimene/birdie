@@ -23,26 +23,12 @@ class StatisticsActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-
-        birdieViewModel.allGames.observe(this, Observer { games ->
-            games?.let { adapter.setGames(it) }
+        birdieViewModel.allGamesData.observe(this, Observer { gamesData ->
+            gamesData?.let { adapter.setGamesData(it)}
         })
 
         birdieViewModel.allCourseAndHoles.observe(this, Observer { courseAndHoles ->
-            courseAndHoles?.let {
-                adapter.setCourseAndHoles(courseAndHoles) }
-        })
-
-        birdieViewModel.allGameHoles.observe(this, Observer { gameHoles ->
-            gameHoles?.let { adapter.setGameHoles(it) }
-        })
-
-        birdieViewModel.allScores.observe(this, Observer { scores ->
-            scores?.let { adapter.setScores(it) }
-        })
-
-        birdieViewModel.allGamePlayers.observe(this, Observer { gamePlayers ->
-            gamePlayers?.let { adapter.setGamePlayers(it) }
+            courseAndHoles?.let { adapter.setCourseAndHoles(it) }
         })
 
         birdieViewModel.allPlayers.observe(this, Observer { players ->

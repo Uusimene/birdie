@@ -10,17 +10,22 @@ import androidx.recyclerview.widget.RecyclerView
 class CourseListAdapter internal constructor(context: Context) : RecyclerView.Adapter<CourseListAdapter.CourseNameViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var games = emptyList<Game>() // Cached copies
-    private var gameHoles = emptyList<GameHole>()
-    private var gamePlayers = emptyList<GamePlayer>()
-    private var scores = emptyList<Score>()
+
     private var courseAndHoles = emptyList<CourseAndHoles>()
     private var players = emptyList<Player>()
+    private var gamesData = emptyList<GameData>()
     private var records = mutableListOf<Int?>()
-    private lateinit var ownerUser: Player
+
+    var onItemClick: ((CourseAndHoles) -> Unit)? = null
 
     inner class CourseNameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val wordItemView: TextView = itemView.findViewById(R.id.textView)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(courseAndHoles[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseNameViewHolder {
@@ -29,7 +34,7 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: CourseNameViewHolder, position: Int) {
-        val course = courseAndHoles[position].course ?: return
+        val course = courseAndHoles[position].course
 
         val courseName = course.name
 
@@ -41,20 +46,10 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
 
     }
 
-    internal fun setGames(games: List<Game>) {
-        this.games = games
-        notifyDataSetChanged()
-    }
-
-    internal fun setGamePlayers(gamePlayers: List<GamePlayer>) {
-        this.gamePlayers = gamePlayers
-        notifyDataSetChanged()
-    }
-
-    internal fun setScores(scores: List<Score>) {
-        this.scores = scores
-        notifyDataSetChanged()
-    }
+   internal fun setGamesData(gamesData: List<GameData>) {
+       this.gamesData = gamesData
+       notifyDataSetChanged()
+   }
 
     internal fun setCourseAndHoles(courses: List<CourseAndHoles>) {
         this.courseAndHoles = courses
@@ -63,11 +58,6 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
 
     internal fun setPlayers(players: List<Player>) {
         this.players = players
-        notifyDataSetChanged()
-    }
-
-    internal fun setGameHoles(gameHoles: List<GameHole>) {
-        this.gameHoles = gameHoles
         notifyDataSetChanged()
     }
 
@@ -95,21 +85,17 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
             records = recordsResult
         }
 
-        val courseGames = games.filter { game -> game.courseUuid == course.uuid }
-        val courseHoleCount = courseAndHoles[idx].holes?.filter { hole -> hole.courseUuid == course.uuid }?.size
+        val courseGames = gamesData.filter { game -> game.game.courseUuid == course.uuid }
+        val courseHoleCount = courseAndHoles[idx].holes.filter { hole -> hole.courseUuid == course.uuid }.size
 
         for (game in courseGames){
-            val holes = gameHoles.filter { gameHole -> gameHole.gameUuid == game.uuid }
-            if (holes.size != courseHoleCount) {
+            if (game.holes.size != courseHoleCount) {
                 continue
             }
-            val filteredGamePlayers = gamePlayers.filter { gamePlayer -> gamePlayer.gameUuid == game.uuid }
-            val ownerGamePlayer = filteredGamePlayers.find { gamePlayer -> gamePlayer.playerUuid == ownerPlayer!!.uuid } ?: continue
 
+            game.players.find { gamePlayer -> gamePlayer.playerUuid == ownerPlayer!!.uuid } ?: continue
 
-            val gameScores = scores.filter { score -> score.gameUuid == game.uuid && score.gamePlayerUuid == ownerGamePlayer.uuid}
-
-            val score = getGameScore(holes, gameScores)
+            val score = getGameScore(game.holes, game.scores)
 
             if (records[idx] == null){
                 records[idx] = score
@@ -119,10 +105,6 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
 
         }
         return records[idx]
-    }
-
-    fun setOwnerPlayer(player: Player) {
-        this.ownerUser = player
     }
 
 }

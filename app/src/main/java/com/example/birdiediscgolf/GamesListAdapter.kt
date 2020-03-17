@@ -11,13 +11,9 @@ import java.sql.Timestamp
 class GamesListAdapter internal constructor (context: Context) : RecyclerView.Adapter<GamesListAdapter.GameInfoViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var games = emptyList<Game>() // Cached copies
-    private var gameHoles = emptyList<GameHole>()
-    private var gamePlayers = emptyList<GamePlayer>()
-    private var scores = emptyList<Score>()
     private var courses = emptyList<Course>()
-    private var holes = emptyList<Hole>()
     private var players = emptyList<Player>()
+    private var gamesData = emptyList<GameData>()
 
     inner class GameInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val wordItemView: TextView = itemView.findViewById(R.id.textView)
@@ -31,17 +27,17 @@ class GamesListAdapter internal constructor (context: Context) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: GameInfoViewHolder, position: Int) {
-        val game = games[position]
-        val course = courses.find { course -> course.uuid == game.courseUuid }
-        val holes = gameHoles.filter { gameHole -> gameHole.gameUuid == game.uuid }
-        val filteredGamePlayers = gamePlayers.filter { gamePlayer -> gamePlayer.gameUuid == game.uuid }
+        val game = gamesData[position]
+        val course = courses.find { course -> course.uuid == game.game.courseUuid }
+        val holes = game.holes
+        val gamePlayers = game.players
         val ownerPlayer = players.find { player -> player.owner == 1 } ?: return
-        val ownerGamePlayer = filteredGamePlayers.find { gamePlayer -> gamePlayer.playerUuid == ownerPlayer.uuid } ?: return
-        val gameScores = scores.filter { score -> score.gameUuid == game.uuid && score.gamePlayerUuid == ownerGamePlayer.uuid}
+        val ownerGamePlayer = gamePlayers.find { gamePlayer -> gamePlayer.playerUuid == ownerPlayer.uuid } ?: return
+        val gameScores = game.scores.filter { score -> score.gamePlayerUuid == ownerGamePlayer.uuid}
 
         if (course != null){
             val courseName = course.name
-            val endedAt = Timestamp(game.endedAt).toString()
+            val endedAt = Timestamp(game.game.endedAt).toString()
             val gameScore = getGameScore(holes, gameScores)
             var scoreString = gameScore.toString()
             if (gameScore > 0)
@@ -54,28 +50,8 @@ class GamesListAdapter internal constructor (context: Context) : RecyclerView.Ad
         }
     }
 
-    internal fun setGames(games: List<Game>) {
-        this.games = games
-        notifyDataSetChanged()
-    }
-
-    internal fun setGamePlayers(gamePlayers: List<GamePlayer>) {
-        this.gamePlayers = gamePlayers
-        notifyDataSetChanged()
-    }
-
-    internal fun setScores(scores: List<Score>) {
-        this.scores = scores
-        notifyDataSetChanged()
-    }
-
     internal fun setCourses(courses: List<Course>) {
         this.courses = courses
-        notifyDataSetChanged()
-    }
-
-    internal fun setHoles(holes: List<Hole>) {
-        this.holes = holes
         notifyDataSetChanged()
     }
 
@@ -84,12 +60,12 @@ class GamesListAdapter internal constructor (context: Context) : RecyclerView.Ad
         notifyDataSetChanged()
     }
 
-    internal fun setGameHoles(gameHoles: List<GameHole>) {
-        this.gameHoles = gameHoles
+    internal fun setGamesData(gamesData: List<GameData>) {
+        this.gamesData = gamesData
         notifyDataSetChanged()
     }
 
-    override fun getItemCount() = games.size
+    override fun getItemCount() = gamesData.size
 
     private fun getGameScore(holes: List<GameHole>, gameScores: List<Score>) : Int {
         var result = 0

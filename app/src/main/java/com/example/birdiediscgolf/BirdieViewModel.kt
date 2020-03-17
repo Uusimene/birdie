@@ -22,6 +22,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
     val allPlayers: LiveData<List<Player>>
     //val allHoles: LiveData<List<Hole>>
     val gameCount: LiveData<Int>
+    val allGamesData: LiveData<List<GameData>>
     private var ownerUserPlayer: Player? = null
 
     init {
@@ -38,6 +39,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         allPlayers = repository.allPlayers
         allCourseAndHoles = repository.allCourseAndHoles
         //allHoles = repository.allHoles
+        allGamesData = repository.allGameData
     }
 
     private fun insertCourse(course: Course) = viewModelScope.launch {

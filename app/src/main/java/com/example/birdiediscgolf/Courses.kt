@@ -36,17 +36,6 @@ data class Hole (
 )
 
 data class CourseAndHoles (
-//    val cUuid: String,
-//    val cId: Int,
-//    val cName: String,
-//    val cCreatedAt: Long,
-//    val hUuid: String,
-//    val hCourseUuid: String,
-//    val hCreatedAt: Long,
-//    val hHole: Int,
-//    val hId: Int,
-//    val hPar: Int,
-//    val hUpdatedAt: Long?
     @Embedded
     val course: Course,
     @Relation(parentColumn = "uuid", entityColumn = "courseUuid")
