@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun viewStatistics(view: View){
-        val intent = Intent(this, StatisticsActivity::class.java)
+        val intent = Intent(this, StatisticsSelectActivity::class.java)
         startActivity(intent)
     }
 
