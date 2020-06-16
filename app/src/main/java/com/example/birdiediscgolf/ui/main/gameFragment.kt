@@ -1,25 +1,24 @@
 package com.example.birdiediscgolf.ui.main
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+
 import com.example.birdiediscgolf.R
 
-/**
- * A placeholder fragment containing a simple view.
- */
-class PlaceholderFragment : Fragment() {
+class gameFragment : Fragment() {
 
-    private lateinit var pageViewModel: PageViewModel
+
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
+        viewModel = ViewModelProvider(this).get(GameViewModel::class.java).apply {
             setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
         }
     }
@@ -28,13 +27,19 @@ class PlaceholderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_course_statistics, container, false)
+        val root = inflater.inflate(R.layout.game_fragment, container, false)
         val textView: TextView = root.findViewById(R.id.section_label)
-        pageViewModel.text.observe(viewLifecycleOwner, Observer<String> {
+        viewModel.text.observe(viewLifecycleOwner, Observer<String> {
             textView.text = it
         })
         return root
     }
+
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+//        // TODO: Use the ViewModel
+//    }
 
     companion object {
         /**
@@ -56,4 +61,5 @@ class PlaceholderFragment : Fragment() {
             }
         }
     }
+
 }

@@ -13,14 +13,8 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
 
     private val repository: BirdieRepository
 
-    //val allCourses: LiveData<List<Course>>
     val allCourseAndHoles: LiveData<List<CourseAndHoles>>
-    val allGames: LiveData<List<Game>>
-    val allGameHoles: LiveData<List<GameHole>>
-    val allScores: LiveData<List<Score>>
-    val allGamePlayers: LiveData<List<GamePlayer>>
     val allPlayers: LiveData<List<Player>>
-    //val allHoles: LiveData<List<Hole>>
     val gameCount: LiveData<Int>
     val allGamesData: LiveData<List<GameData>>
     private var ownerUserPlayer: Player? = null
@@ -30,15 +24,10 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         val playersDao = BirdieRoomDatabase.getDatabase(application, viewModelScope).playersDao()
         val gamesDao = BirdieRoomDatabase.getDatabase(application, viewModelScope).gamesDao()
         repository = BirdieRepository(coursesDao, playersDao, gamesDao)
-        //allCourses = repository.allCourses
-        allGames = repository.allGames
+
         gameCount = repository.gameCount
-        allGameHoles = repository.allGameHoles
-        allScores = repository.allScores
-        allGamePlayers = repository.allGamePlayers
         allPlayers = repository.allPlayers
         allCourseAndHoles = repository.allCourseAndHoles
-        //allHoles = repository.allHoles
         allGamesData = repository.allGameData
     }
 
