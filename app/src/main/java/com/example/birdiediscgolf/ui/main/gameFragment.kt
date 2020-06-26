@@ -28,10 +28,10 @@ class gameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.game_fragment, container, false)
-        val textView: TextView = root.findViewById(R.id.section_label)
-        viewModel.text.observe(viewLifecycleOwner, Observer<String> {
-            textView.text = it
-        })
+//        val textView: TextView = root.findViewById(R.id.section_label)
+//        viewModel.text.observe(viewLifecycleOwner, Observer<String> {
+//            textView.text = it
+//        })
         return root
     }
 
@@ -53,8 +53,8 @@ class gameFragment : Fragment() {
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int): PlaceholderFragment {
-            return PlaceholderFragment().apply {
+        fun newInstance(sectionNumber: Int): gameFragment {
+            return gameFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_SECTION_NUMBER, sectionNumber)
                 }
