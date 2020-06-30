@@ -114,7 +114,8 @@
                 android:layout_height="80dp"
                 android:text="-"
                 android:tag="-"
-                android:onClick="pressButton"/>
+                android:onClick="pressButton"
+                android:enabled="false"/>
 
             <Space
                 android:layout_width="wrap_content"

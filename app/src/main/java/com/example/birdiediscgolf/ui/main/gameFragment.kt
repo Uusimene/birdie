@@ -15,6 +15,9 @@ class gameFragment : Fragment() {
 
 
     private lateinit var viewModel: GameViewModel
+    private val numberButtons = mutableListOf<Button>()
+    private val plusMinusButtons = mutableListOf<Button>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,20 +32,24 @@ class gameFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_game, container, false)
 
-        val buttons = mutableListOf<Button>()
-        buttons.add(root.findViewById(R.id.button1))
-        buttons.add(root.findViewById(R.id.button2))
-        buttons.add(root.findViewById(R.id.button3))
-        buttons.add(root.findViewById(R.id.button4))
-        buttons.add(root.findViewById(R.id.button5))
-        buttons.add(root.findViewById(R.id.button6))
-        buttons.add(root.findViewById(R.id.button7))
-        buttons.add(root.findViewById(R.id.button8))
-        buttons.add(root.findViewById(R.id.button9))
-        buttons.add(root.findViewById(R.id.buttonMinus))
-        buttons.add(root.findViewById(R.id.buttonPlus))
+        numberButtons.add(root.findViewById(R.id.button1))
+        numberButtons.add(root.findViewById(R.id.button2))
+        numberButtons.add(root.findViewById(R.id.button3))
+        numberButtons.add(root.findViewById(R.id.button4))
+        numberButtons.add(root.findViewById(R.id.button5))
+        numberButtons.add(root.findViewById(R.id.button6))
+        numberButtons.add(root.findViewById(R.id.button7))
+        numberButtons.add(root.findViewById(R.id.button8))
+        numberButtons.add(root.findViewById(R.id.button9))
+        plusMinusButtons.add(root.findViewById(R.id.buttonMinus))
+        plusMinusButtons.add(root.findViewById(R.id.buttonPlus))
 
-        for (button in buttons) {
+        for (button in numberButtons) {
+            button.setOnClickListener{
+                pressButton(it)
+            }
+        }
+        for (button in plusMinusButtons) {
             button.setOnClickListener{
                 pressButton(it)
             }
@@ -56,7 +63,7 @@ class gameFragment : Fragment() {
 //        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 //        // TODO: Use the ViewModel
 //    }
-    fun pressButton(view: View){
+    private fun pressButton(view: View){
         when (view.tag){
             "1"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
             "2"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
@@ -67,11 +74,56 @@ class gameFragment : Fragment() {
             "7"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
             "8"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
             "9"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "-"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "+"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "-"-> adjustButtonNumbers(view.tag.toString())
+            "+"-> adjustButtonNumbers(view.tag.toString())
+            else -> {
+                Toast.makeText(activity, "You shouldn't see this happen, something bork", Toast.LENGTH_SHORT).show()
+            }
 
         }
 }
+    private fun adjustButtonNumbers(tag: String){
+        var lowest = 99999
+        for (button in numberButtons) {
+            try {
+                var value = 0
+                when (tag) {
+                    "+" -> value = button.text.toString().toInt() + 9
+                    "-" -> value = button.text.toString().toInt() - 9
+                }
+                lowest = if (value < lowest) value else lowest
+                button.text = value.toString()
+            }
+            catch (e: NumberFormatException) {
+                continue
+            }
+        }
+
+        if (lowest in 2..50){
+            for (button in plusMinusButtons) {
+                when (button.tag) {
+                    "-" -> button.isEnabled = true
+                    "+" -> button.isEnabled = true
+                }
+            }
+        }
+        else if (lowest > 50){
+            for (button in plusMinusButtons) {
+                when (button.tag) {
+                    "-" -> button.isEnabled = true
+                    "+" -> button.isEnabled = false
+                }
+            }
+        }
+        else if (lowest == 1){
+            for (button in plusMinusButtons) {
+                when (button.tag) {
+                    "-" -> button.isEnabled = false
+                    "+" -> button.isEnabled = true
+                }
+            }
+        }
+    }
 
     companion object {
         /**
