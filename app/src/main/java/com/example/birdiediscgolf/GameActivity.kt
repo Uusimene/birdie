@@ -6,6 +6,8 @@ import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.example.birdiediscgolf.ui.main.GameSectionsPagerAdapter
 import com.example.birdiediscgolf.ui.main.SectionsPagerAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 
@@ -29,5 +31,6 @@ class GameActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
+
     }
 }

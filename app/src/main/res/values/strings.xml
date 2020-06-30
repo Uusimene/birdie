@@ -12,4 +12,6 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="course_statistics">Course Statistics</string>
+    <string name="addCourseDialogText">Course name</string>
+    <string name="holeCount">How many holes?</string>
 </resources>

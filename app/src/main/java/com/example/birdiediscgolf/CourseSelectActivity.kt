@@ -3,13 +3,15 @@ package com.example.birdiediscgolf
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 
-class CourseSelectActivity : AppCompatActivity() {
+class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.dialogListener{
 
     private lateinit var birdieViewModel: BirdieViewModel
 
@@ -41,5 +43,20 @@ class CourseSelectActivity : AppCompatActivity() {
         birdieViewModel.allPlayers.observe(this, Observer { players ->
             players?.let { adapter.setPlayers(it) }
         })
+
+        val fab: FloatingActionButton = findViewById(R.id.addCourseFab)
+        fab.setOnClickListener { view ->
+            openAddCourseDialog()
+        }
+    }
+
+    private fun openAddCourseDialog() {
+        val addCourseDialog: AddCourseDialog = AddCourseDialog()
+        addCourseDialog.show(supportFragmentManager, "diggoo")
+    }
+
+    override fun getDialogInput(courseName: String, holeCount: Int) {
+        super.getDialogInput(courseName, holeCount)
+        Toast.makeText(applicationContext, courseName + holeCount.toString(), Toast.LENGTH_LONG).show()
     }
 }

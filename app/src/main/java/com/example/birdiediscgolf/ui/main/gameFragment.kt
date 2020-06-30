@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.lifecycle.Observer
+import android.widget.Button
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 
 import com.example.birdiediscgolf.R
@@ -27,19 +27,51 @@ class gameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.game_fragment, container, false)
-//        val textView: TextView = root.findViewById(R.id.section_label)
-//        viewModel.text.observe(viewLifecycleOwner, Observer<String> {
-//            textView.text = it
-//        })
+        val root = inflater.inflate(R.layout.fragment_game, container, false)
+
+        val buttons = mutableListOf<Button>()
+        buttons.add(root.findViewById(R.id.button1))
+        buttons.add(root.findViewById(R.id.button2))
+        buttons.add(root.findViewById(R.id.button3))
+        buttons.add(root.findViewById(R.id.button4))
+        buttons.add(root.findViewById(R.id.button5))
+        buttons.add(root.findViewById(R.id.button6))
+        buttons.add(root.findViewById(R.id.button7))
+        buttons.add(root.findViewById(R.id.button8))
+        buttons.add(root.findViewById(R.id.button9))
+        buttons.add(root.findViewById(R.id.buttonMinus))
+        buttons.add(root.findViewById(R.id.buttonPlus))
+
+        for (button in buttons) {
+            button.setOnClickListener{
+                pressButton(it)
+            }
+        }
+
         return root
     }
 
 //    override fun onActivityCreated(savedInstanceState: Bundle?) {
 //        super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+//        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 //        // TODO: Use the ViewModel
 //    }
+    fun pressButton(view: View){
+        when (view.tag){
+            "1"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "2"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "3"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "4"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "5"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "6"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "7"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "8"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "9"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "-"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "+"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+
+        }
+}
 
     companion object {
         /**
