@@ -37,6 +37,8 @@ class gameFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_game, container, false)
 
+        numberButtons.clear()
+        plusMinusButtons.clear()
         numberButtons.add(root.findViewById(R.id.button1))
         numberButtons.add(root.findViewById(R.id.button2))
         numberButtons.add(root.findViewById(R.id.button3))
@@ -62,6 +64,15 @@ class gameFragment : Fragment() {
 
         return root
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (selectedButtonTag != "0") {
+            val btnIndex = selectedButtonTag.toInt() - 1
+            numberButtons[btnIndex].background = ResourcesCompat.getDrawable(resources, R.color.colorPrimary, null)
+        }
+    }
+
 
 
     //    override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -101,7 +112,7 @@ class gameFragment : Fragment() {
                     score = button.text.toString().toInt()
                     selectedButtonTag = tag
                     button.background = ResourcesCompat.getDrawable(resources, R.color.colorPrimary, null)
-                    //nextTab()
+                    nextTab()
                 }
                 else if (selectedButtonTag == button.tag) {
                     score = 0
