@@ -20,7 +20,7 @@ class GameSectionsPagerAdapter(private val context: Context, fm: FragmentManager
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return gameFragment.newInstance(position + 1)
+        return gameFragment.newInstance(position + 1, COURSE_AND_HOLES.holes[position].par)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

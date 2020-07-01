@@ -10,13 +10,24 @@
 
     >
 
+    <TextView
+        android:id="@+id/textViewPar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TableLayout
+        android:id="@+id/tableLayout"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        style="?android:attr/buttonBarStyle">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TableRow
             android:layout_width="match_parent"
@@ -24,31 +35,30 @@
 
             <Button
                 android:id="@+id/button1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="110dp"
                 android:layout_height="80dp"
-                android:text="1"
                 android:tag="1"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"
-                />
+                android:text="1"
+                android:textColor="@color/buttonText" />
 
             <Button
                 android:id="@+id/button2"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
-                android:text="2"
                 android:tag="2"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="2"
+                android:textColor="@color/buttonText" />
 
             <Button
                 android:id="@+id/button3"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
-                android:text="3"
                 android:tag="3"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="3"
+                android:textColor="@color/buttonText" />
         </TableRow>
 
         <TableRow
@@ -57,30 +67,30 @@
 
             <Button
                 android:id="@+id/button4"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:text="4"
                 android:tag="4"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="4"
+                android:textColor="@color/buttonText" />
 
             <Button
                 android:id="@+id/button5"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="5"
                 android:tag="5"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="5"
+                android:textColor="@color/buttonText" />
 
             <Button
                 android:id="@+id/button6"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="6"
                 android:tag="6"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="6"
+                android:textColor="@color/buttonText" />
         </TableRow>
 
         <TableRow
@@ -89,30 +99,30 @@
 
             <Button
                 android:id="@+id/button7"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:text="7"
                 android:tag="7"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="7"
+                android:textColor="@color/buttonText" />
 
             <Button
                 android:id="@+id/button8"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="8"
                 android:tag="8"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="8"
+                android:textColor="@color/buttonText" />
 
             <Button
                 android:id="@+id/button9"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="9"
                 android:tag="9"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="9"
+                android:textColor="@color/buttonText" />
         </TableRow>
 
         <TableRow
@@ -121,13 +131,13 @@
 
             <Button
                 android:id="@+id/buttonMinus"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:text="-"
-                android:tag="-"
-                android:textColor="@color/buttonText"
                 android:enabled="false"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:tag="-"
+                android:text="-"
+                android:textColor="@color/buttonText" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -135,12 +145,12 @@
 
             <Button
                 android:id="@+id/buttonPlus"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="+"
                 android:tag="+"
-                android:textColor="@color/buttonText"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:text="+"
+                android:textColor="@color/buttonText" />
         </TableRow>
 
     </TableLayout>

@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 
 import com.example.birdiediscgolf.R
+import kotlinx.android.synthetic.main.fragment_game.*
 
 class gameFragment : Fragment() {
 
@@ -36,6 +38,11 @@ class gameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_game, container, false)
+
+        val textView: TextView = root.findViewById(R.id.textViewPar)
+        val par = arguments?.getInt(ARG_PAR) ?: -1
+        val parText = "Par $par"
+        textView.text = parText
 
         numberButtons.clear()
         plusMinusButtons.clear()
@@ -186,16 +193,18 @@ class gameFragment : Fragment() {
          * fragment.
          */
         private const val ARG_SECTION_NUMBER = "section_number"
+        private const val ARG_PAR = "par"
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int): gameFragment {
+        fun newInstance(sectionNumber: Int, par: Int): gameFragment {
             return gameFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_SECTION_NUMBER, sectionNumber)
+                    putInt(ARG_PAR, par)
                 }
             }
         }
