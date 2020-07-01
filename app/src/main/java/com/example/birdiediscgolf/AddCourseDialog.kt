@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 class AddCourseDialog : AppCompatDialogFragment() {
     lateinit var courseNameEditText: EditText
     lateinit var holeCountNumberPicker: NumberPicker
-    lateinit var listener: dialogListener
+    lateinit var listener: DialogListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity, R.style.AlertDialogTheme)
@@ -53,13 +53,13 @@ class AddCourseDialog : AppCompatDialogFragment() {
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
         try {
-            listener = activity as dialogListener
+            listener = activity as DialogListener
         } catch (e: ClassCastException) {
             throw ClassCastException(activity.toString() + "must implement dialogListener")
         }
     }
 
-    interface dialogListener {
+    interface DialogListener {
         fun getDialogInput(courseName: String, holeCount: Int) {
 
         }

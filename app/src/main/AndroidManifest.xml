@@ -24,7 +24,8 @@
         <activity
             android:name=".GameActivity"
             android:parentActivityName=".CourseSelectActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".StatisticsSelectActivity"
             android:parentActivityName=".MainActivity" />

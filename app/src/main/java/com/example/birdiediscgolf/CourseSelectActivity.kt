@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 
-class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.dialogListener{
+class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.DialogListener{
 
     private lateinit var birdieViewModel: BirdieViewModel
 
@@ -51,7 +51,7 @@ class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.dialogListener
     }
 
     private fun openAddCourseDialog() {
-        val addCourseDialog: AddCourseDialog = AddCourseDialog()
+        val addCourseDialog = AddCourseDialog()
         addCourseDialog.show(supportFragmentManager, "diggoo")
     }
 

@@ -14,4 +14,6 @@
     <string name="course_statistics">Course Statistics</string>
     <string name="addCourseDialogText">Course name</string>
     <string name="holeCount">How many holes?</string>
+    <string name="endGame">End game</string>
+    <string name="changePar">Change par</string>
 </resources>
