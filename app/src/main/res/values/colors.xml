@@ -5,4 +5,5 @@
     <color name="colorPrimaryLight">#F9FFF8</color>
     <color name="colorAccent">#00F7FF</color>
     <color name="buttonLabel">#D3D3D3</color>
+    <color name="buttonText">#272727</color>
 </resources>

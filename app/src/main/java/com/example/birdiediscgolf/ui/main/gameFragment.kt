@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
 
 import com.example.birdiediscgolf.R
 
@@ -17,6 +19,9 @@ class gameFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
     private val numberButtons = mutableListOf<Button>()
     private val plusMinusButtons = mutableListOf<Button>()
+
+    private var score = 0
+    private var selectedButtonTag = "0"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,22 +63,23 @@ class gameFragment : Fragment() {
         return root
     }
 
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+
+    //    override fun onActivityCreated(savedInstanceState: Bundle?) {
 //        super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 //        // TODO: Use the ViewModel
 //    }
     private fun pressButton(view: View){
         when (view.tag){
-            "1"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "2"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "3"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "4"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "5"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "6"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "7"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "8"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
-            "9"-> Toast.makeText(activity, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            "1"-> selectScore(view.tag.toString())
+            "2"-> selectScore(view.tag.toString())
+            "3"-> selectScore(view.tag.toString())
+            "4"-> selectScore(view.tag.toString())
+            "5"-> selectScore(view.tag.toString())
+            "6"-> selectScore(view.tag.toString())
+            "7"-> selectScore(view.tag.toString())
+            "8"-> selectScore(view.tag.toString())
+            "9"-> selectScore(view.tag.toString())
             "-"-> adjustButtonNumbers(view.tag.toString())
             "+"-> adjustButtonNumbers(view.tag.toString())
             else -> {
@@ -82,6 +88,44 @@ class gameFragment : Fragment() {
 
         }
 }
+
+    private fun nextTab(){
+        val viewPager = activity?.findViewById(R.id.view_pager) as ViewPager
+        viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+    }
+
+    private fun selectScore(tag: String) {
+        for (button in numberButtons){
+            if (button.tag == tag) {
+                if (selectedButtonTag == "0") {
+                    score = button.text.toString().toInt()
+                    selectedButtonTag = tag
+                    button.background = ResourcesCompat.getDrawable(resources, R.color.colorPrimary, null)
+                    //nextTab()
+                }
+                else if (selectedButtonTag == button.tag) {
+                    score = 0
+                    selectedButtonTag = "0"
+                    button.background = ResourcesCompat.getDrawable(resources, android.R.color.transparent, null)
+
+                }
+                else {
+                    for (selButton in numberButtons) {
+                        if (selButton.tag == selectedButtonTag) {
+                            selButton.background = ResourcesCompat.getDrawable(resources, android.R.color.transparent, null)
+                            break
+                        }
+                    }
+                    score = button.text.toString().toInt()
+                    selectedButtonTag = tag
+                    button.background = ResourcesCompat.getDrawable(resources, R.color.colorPrimary, null)
+                }
+                break
+            }
+        }
+        Toast.makeText(activity, "score: $score   selectedButtonTag: $selectedButtonTag", Toast.LENGTH_SHORT).show()
+    }
+
     private fun adjustButtonNumbers(tag: String){
         var lowest = 99999
         for (button in numberButtons) {
