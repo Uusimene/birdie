@@ -14,7 +14,9 @@ data class Course (
 
     val name: String = "",
 
-    val createdAt: Long = -1
+    val createdAt: Long = -1,
+
+    val record: Int = -1
     )
 
 @Entity(tableName = "holes")
@@ -32,7 +34,9 @@ data class Hole (
 
     val par: Int = -1,
 
-    val updatedAt: Long?
+    val updatedAt: Long?,
+
+    val bestScore: Int = -1
 )
 
 data class CourseAndHoles (

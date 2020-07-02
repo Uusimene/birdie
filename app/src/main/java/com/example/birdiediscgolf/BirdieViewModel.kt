@@ -39,6 +39,25 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         repository.insertHole(hole)
     }
 
+    private fun updateHoleRecord(holeUuid: String, score: Int) = viewModelScope.launch {
+        val courseandholes = allCourseAndHoles.value
+        if (courseandholes != null){
+            val holes = mutableListOf<List<Hole>>()
+            for (course in courseandholes) {
+                holes.add(course.holes)
+            }
+            for (holelist in holes){
+                for (hole in holelist){
+                    val uuid = hole.uuid
+                    repository.updateHoleRecord(uuid, 5)
+                }
+            }
+        }
+
+        // tää funktio toimii, ylläoleva paska ei
+        //repository.updateHoleRecord(holeUuid, score)
+    }
+
     private fun insertPlayer(player: Player) = viewModelScope.launch {
         repository.insertPlayer(player)
     }
@@ -192,6 +211,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun importScores(scores: JSONArray) {
+
         for (i in 0 until scores.length()) {
             val scoreObject = scores[i] as JSONObject
 
@@ -224,4 +244,24 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
 
         return ownerUserPlayer!!
     }
+
+    fun updateHoleRecords() {
+//        val ownerPlayer = allPlayers.value?.find { player -> player.owner == 1 }
+//        val holeRecordMap = mutableMapOf<String, Int>()
+//        val gamesData = allGamesData.value
+//        val courseData = allCourseAndHoles.value
+//        if (gamesData != null && courseData != null){
+//            for (game in gamesData){
+//                val courseAndHoles = courseData.filter {it.course.uuid == game.game.courseUuid}
+//                val courseUuid = courseAndHoles[0].course.uuid
+//                val course = courseAndHoles[0].course
+//                val courseHoles = courseAndHoles[0].holes
+//                for (score in game.scores){
+//
+//                }
+//            }
+//        }
+        updateHoleRecord("asd", 1)
+    }
+
 }

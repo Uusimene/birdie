@@ -24,6 +24,9 @@ interface CoursesDao {
     @Query("SELECT * FROM holes ORDER BY courseUuid ASC")
     fun getAllHoles(): LiveData<List<Hole>>
 
+    @Query("UPDATE holes SET bestScore = :score WHERE uuid = :holeUuid")
+    suspend fun updateHoleRecord(holeUuid: String, score: Int)
+
     @Query("DELETE FROM courses")
     suspend fun deleteAllCourses()
 

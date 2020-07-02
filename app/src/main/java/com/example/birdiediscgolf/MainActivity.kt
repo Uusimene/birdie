@@ -215,6 +215,7 @@ class MainActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
+                                birdieViewModel.updateHoleRecords()
 
                             } catch (e: FileNotFoundException) {
                                 text = "File at ${paths[i]} couldn't be opened"

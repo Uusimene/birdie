@@ -24,6 +24,10 @@ class BirdieRepository(private val coursesDao: CoursesDao, private val playersDa
         coursesDao.insertHole(hole)
     }
 
+    suspend fun updateHoleRecord(holeUuid: String, score: Int) {
+        coursesDao.updateHoleRecord(holeUuid, score)
+    }
+
     suspend fun getCourseHoles(courseUuid: String): List<Hole> {
         return coursesDao.getCourseHoles(courseUuid)
     }
