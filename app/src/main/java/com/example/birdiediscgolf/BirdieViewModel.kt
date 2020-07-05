@@ -35,8 +35,16 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         repository.insertCourse(course)
     }
 
+    private fun insertCourses(courses: List<Course>) = viewModelScope.launch {
+        repository.insertCourses(courses)
+    }
+
     private fun insertHole(hole: Hole) = viewModelScope.launch {
         repository.insertHole(hole)
+    }
+
+    private fun insertHoles(holes: List<Hole>) = viewModelScope.launch {
+        repository.insertHoles(holes)
     }
 
     private fun updateHoleRecord(holeUuid: String, score: Int) = viewModelScope.launch {
@@ -62,23 +70,44 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         repository.insertPlayer(player)
     }
 
+    private fun insertPlayers(players: List<Player>) = viewModelScope.launch {
+        repository.insertPlayers(players)
+    }
+
     private fun insertGame(game: Game) = viewModelScope.launch {
         repository.insertGame(game)
+    }
+
+    private fun insertGames(games: List<Game>) = viewModelScope.launch {
+        repository.insertGames(games)
     }
 
     private fun insertGamePlayer(gamePlayer: GamePlayer) = viewModelScope.launch {
         repository.insertGamePlayer(gamePlayer)
     }
 
+    private fun insertGamePlayers(gamePlayers: List<GamePlayer>) = viewModelScope.launch {
+        repository.insertGamePlayers(gamePlayers)
+    }
+
     private fun insertGameHole(gameHole: GameHole) = viewModelScope.launch {
         repository.insertGameHole(gameHole)
+    }
+
+    private fun insertGameHoles(gameHoles: List<GameHole>) = viewModelScope.launch {
+        repository.insertGameHoles(gameHoles)
     }
 
     private fun insertScore(score: Score) = viewModelScope.launch {
         repository.insertScore(score)
     }
 
+    private fun insertScores(scores: List<Score>) = viewModelScope.launch {
+        repository.insertScores(scores)
+    }
+
     fun importCourses(courses: JSONArray) {
+        val coursesList = mutableListOf<Course>()
         for (i in 0 until courses.length()) {
             val courseObject = courses[i] as JSONObject
 
@@ -91,11 +120,14 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
             val idInt = id.toInt()
 
             val course = Course(uuid, idInt, name, createdAtLong)
-            insertCourse(course)
+            coursesList.add(course)
+            //insertCourse(course)
         }
+        insertCourses(coursesList)
     }
 
     fun importHoles(holes: JSONArray) {
+        val holesList = mutableListOf<Hole>()
         for (i in 0 until holes.length()) {
             val holeObject = holes[i] as JSONObject
 
@@ -117,11 +149,14 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
                 updatedAtLong = updatedAt.toLong()
             }
             val hole = Hole(uuid, courseUuid, createdAtLong, holeNumber, idInt, par, updatedAtLong)
-            insertHole(hole)
+            holesList.add(hole)
+            //insertHole(hole)
         }
+        insertHoles(holesList)
     }
 
     fun importPlayers(players: JSONArray) {
+        val playersList = mutableListOf<Player>()
         for (i in 0 until players.length()) {
             val playerObject = players[i] as JSONObject
 
@@ -146,11 +181,14 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
                 updatedAtLong = updatedAt.toLong()
             }
             val player = Player(uuid, createdAtLong, idInt, name, owner, profileImageFilename, updatedAtLong )
-            insertPlayer(player)
+            playersList.add(player)
+            // insertPlayer(player)
         }
+        insertPlayers(playersList)
     }
 
     fun importGames(games: JSONArray) {
+        val gamesList = mutableListOf<Game>()
         for (i in 0 until games.length()) {
             val gameObject = games[i] as JSONObject
 
@@ -169,11 +207,14 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
             val idInt = id.toInt()
 
             val game = Game(uuid, courseUuid, createdAtLong, endedAtLong, idInt, startedAtLong, updatedAtLong)
-            insertGame(game)
+            gamesList.add(game)
+            //insertGame(game)
         }
+        insertGames(gamesList)
     }
 
     fun importGamePlayers(gamePlayers: JSONArray) {
+        val gamePlayersList = mutableListOf<GamePlayer>()
         for (i in 0 until gamePlayers.length()) {
             val gamePlayerObject = gamePlayers[i] as JSONObject
 
@@ -187,11 +228,14 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
             val createdAtLong = createdAt.toLong()
 
             val gamePlayer = GamePlayer(uuid, gameUuid, createdAtLong, idInt, playerUuid)
-            insertGamePlayer(gamePlayer)
+            gamePlayersList.add(gamePlayer)
+            //insertGamePlayer(gamePlayer)
         }
+        insertGamePlayers(gamePlayersList)
     }
 
     fun importGameHoles(gameHoles: JSONArray) {
+        val gameHolesList = mutableListOf<GameHole>()
         for (i in 0 until gameHoles.length()) {
             val gameHoleObject = gameHoles[i] as JSONObject
 
@@ -206,12 +250,14 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
             val createdAtLong = createdAt.toLong()
 
             val gameHole = GameHole(uuid, gameUuid, createdAtLong, hole, idInt, par)
-            insertGameHole(gameHole)
+            gameHolesList.add(gameHole)
+            //insertGameHole(gameHole)
         }
+        insertGameHoles(gameHolesList)
     }
 
     fun importScores(scores: JSONArray) {
-
+        val scoresList = mutableListOf<Score>()
         for (i in 0 until scores.length()) {
             val scoreObject = scores[i] as JSONObject
 
@@ -227,8 +273,10 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
             val idInt = id.toInt()
 
             val score = Score(uuid, createdAtLong, gameHoleUuid, gamePlayerUuid, gameUuid, idInt, scoreVal)
-            insertScore(score)
+            scoresList.add(score)
+            //insertScore(score)
         }
+        insertScores(scoresList)
     }
 
     suspend fun getCourseHoles(courseUuid: String): List<Hole> {

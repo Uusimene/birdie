@@ -1,10 +1,7 @@
 package com.example.birdiediscgolf
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CoursesDao {
@@ -32,6 +29,20 @@ interface CoursesDao {
 
     @Query("DELETE FROM holes")
     suspend fun deleteAllHoles()
+
+    @Transaction
+    suspend fun insertCourses(courses: List<Course>) {
+        for (course in courses) {
+            insertCourse(course)
+        }
+    }
+
+    @Transaction
+    suspend fun insertHoles(holes: List<Hole>) {
+        for (hole in holes) {
+            insertHole(hole)
+        }
+    }
 
     //@Query("SELECT * FROM courses INNER JOIN holes ON courses.uuid = holes.courseUuid")
     //@Query("SELECT courses.uuid AS cUuid, courses.id AS cId, courses.name AS cName, courses.createdAt AS cCreatedAt, holes.uuid AS hUuid, holes.courseUuid AS hCourseUuid, holes.createdAt AS hCreatedAt, holes.hole AS hHole, holes.id AS hId, holes.par AS hPar, holes.updatedAt AS hUpdatedAt FROM courses INNER JOIN holes ON courses.uuid = holes.courseUuid")

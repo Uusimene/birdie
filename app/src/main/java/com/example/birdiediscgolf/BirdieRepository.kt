@@ -20,8 +20,16 @@ class BirdieRepository(private val coursesDao: CoursesDao, private val playersDa
         coursesDao.insertCourse(course)
     }
 
+    suspend fun insertCourses(courses: List<Course>) {
+        coursesDao.insertCourses(courses)
+    }
+
     suspend fun insertHole(hole: Hole) {
         coursesDao.insertHole(hole)
+    }
+
+    suspend fun insertHoles(holes: List<Hole>) {
+        coursesDao.insertHoles(holes)
     }
 
     suspend fun updateHoleRecord(holeUuid: String, score: Int) {
@@ -36,20 +44,40 @@ class BirdieRepository(private val coursesDao: CoursesDao, private val playersDa
         playersDao.insertPlayer(player)
     }
 
+    suspend fun insertPlayers(players: List<Player>) {
+        playersDao.insertPlayers(players)
+    }
+
     suspend fun insertGame(game: Game) {
         gamesDao.insertGame(game)
+    }
+
+    suspend fun insertGames(games: List<Game>) {
+        gamesDao.insertGames(games)
     }
 
     suspend fun insertGamePlayer(gamePlayer: GamePlayer) {
         gamesDao.insertGamePlayer(gamePlayer)
     }
 
+    suspend fun insertGamePlayers(gamePlayers: List<GamePlayer>) {
+        gamesDao.insertGamePlayers(gamePlayers)
+    }
+
     suspend fun insertGameHole(gameHole: GameHole) {
         gamesDao.insertGameHole(gameHole)
     }
 
+    suspend fun insertGameHoles(gameHoles: List<GameHole>) {
+        gamesDao.insertGameHoles(gameHoles)
+    }
+
     suspend fun insertScore(score: Score) {
         gamesDao.insertScore(score)
+    }
+
+    suspend fun insertScores(scores: List<Score>) {
+        gamesDao.insertScores(scores)
     }
 
     suspend fun getOwnerPlayer(): Player {
