@@ -8,77 +8,77 @@ import androidx.room.Relation
 @Entity(tableName = "games")
 data class Game (
     @PrimaryKey
-    val uuid: String,
+    var uuid: String,
 
-    val courseUuid: String,
+    var courseUuid: String,
 
-    val createdAt: Long,
+    var createdAt: Long,
 
-    val endedAt: Long,
+    var endedAt: Long,
 
-    val id: Int,
+    var id: Int,
 
-    val StartedAt: Long,
+    var StartedAt: Long,
 
-    val updatedAt: Long
+    var updatedAt: Long
 )
 
 @Entity(tableName = "gamePlayers")
 data class GamePlayer (
     @PrimaryKey
-    val uuid: String,
+    var uuid: String,
 
-    val gameUuid: String,
+    var gameUuid: String,
 
-    val createdAt: Long,
+    var createdAt: Long,
 
-    val id: Int,
+    var id: Int,
 
-    val playerUuid: String
+    var playerUuid: String
 )
 
 @Entity(tableName = "gameHoles")
 data class GameHole (
     @PrimaryKey
-    val uuid: String,
+    var uuid: String,
 
-    val gameUuid: String,
+    var gameUuid: String,
 
-    val createdAt: Long,
+    var createdAt: Long,
 
-    val hole: Int,
+    var hole: Int,
 
-    val id: Int,
+    var id: Int,
 
-    val par: Int
+    var par: Int
 )
 
 @Entity(tableName = "scores")
 data class Score (
     @PrimaryKey
-    val uuid: String,
+    var uuid: String,
 
-    val createdAt: Long,
+    var createdAt: Long,
 
-    val gameHoleUuid: String,
+    var gameHoleUuid: String,
 
-    val gamePlayerUuid: String,
+    var gamePlayerUuid: String,
 
-    val gameUuid: String,
+    var gameUuid: String,
 
-    val id: Int,
+    var id: Int,
 
-    val score: Int
+    var score: Int
 )
 
 data class GameData (
     @Embedded
-    val game: Game,
+    var game: Game,
     @Relation(parentColumn = "uuid", entityColumn = "gameUuid")
-    val players: List<GamePlayer>,
+    var players: List<GamePlayer>,
     @Relation(parentColumn = "uuid", entityColumn = "gameUuid")
-    val holes: List<GameHole>,
+    var holes: List<GameHole>,
     @Relation(parentColumn = "uuid", entityColumn = "gameUuid")
-    val scores: List<Score>
+    var scores: List<Score>
 )
 

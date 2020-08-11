@@ -74,19 +74,19 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         repository.insertPlayers(players)
     }
 
-    private fun insertGame(game: Game) = viewModelScope.launch {
+    fun insertGame(game: Game) = viewModelScope.launch {
         repository.insertGame(game)
     }
 
-    private fun insertGames(games: List<Game>) = viewModelScope.launch {
+    fun insertGames(games: List<Game>) = viewModelScope.launch {
         repository.insertGames(games)
     }
 
-    private fun insertGamePlayer(gamePlayer: GamePlayer) = viewModelScope.launch {
+    fun insertGamePlayer(gamePlayer: GamePlayer) = viewModelScope.launch {
         repository.insertGamePlayer(gamePlayer)
     }
 
-    private fun insertGamePlayers(gamePlayers: List<GamePlayer>) = viewModelScope.launch {
+    fun insertGamePlayers(gamePlayers: List<GamePlayer>) = viewModelScope.launch {
         repository.insertGamePlayers(gamePlayers)
     }
 
@@ -94,7 +94,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         repository.insertGameHole(gameHole)
     }
 
-    private fun insertGameHoles(gameHoles: List<GameHole>) = viewModelScope.launch {
+    fun insertGameHoles(gameHoles: List<GameHole>) = viewModelScope.launch {
         repository.insertGameHoles(gameHoles)
     }
 
@@ -102,7 +102,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         repository.insertScore(score)
     }
 
-    private fun insertScores(scores: List<Score>) = viewModelScope.launch {
+    fun insertScores(scores: List<Score>) = viewModelScope.launch {
         repository.insertScores(scores)
     }
 

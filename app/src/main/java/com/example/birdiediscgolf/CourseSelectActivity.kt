@@ -14,6 +14,7 @@ import com.google.gson.Gson
 class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.DialogListener{
 
     private lateinit var birdieViewModel: BirdieViewModel
+    private lateinit var playersList: List<Player>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,7 @@ class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.DialogListener
             val intent = Intent(this, GameActivity::class.java)
             val gson = Gson()
             intent.putExtra("course", gson.toJson(courseAndHoles))
+            intent.putExtra("players", gson.toJson(playersList))
             startActivity(intent)
         }
 
@@ -41,7 +43,8 @@ class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.DialogListener
         })
 
         birdieViewModel.allPlayers.observe(this, Observer { players ->
-            players?.let { adapter.setPlayers(it) }
+            players?.let { adapter.setPlayers(it)
+            playersList = players}
         })
 
         val fab: FloatingActionButton = findViewById(R.id.addCourseFab)
