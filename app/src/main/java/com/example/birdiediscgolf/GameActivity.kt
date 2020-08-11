@@ -1,5 +1,6 @@
 package com.example.birdiediscgolf
 
+import android.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -9,10 +10,11 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.example.birdiediscgolf.ui.main.GameSectionsPagerAdapter
+import com.example.birdiediscgolf.ui.main.gameFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 
-class GameActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity(), gameFragment.OnScoreSelectedListener {
 
     lateinit var toolbar: Toolbar
 
@@ -51,4 +53,17 @@ class GameActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onAttachFragment(fragment: androidx.fragment.app.Fragment) {
+        if (fragment is gameFragment){
+            fragment.setOnScoreSelectedListener(this)
+        }
+        super.onAttachFragment(fragment)
+    }
+
+    override fun onScoreSelected(score: Int, hole: Int) {
+        Toast.makeText(this, "score: $score, hole: $hole", Toast.LENGTH_SHORT).show()
+
+    }
+
 }

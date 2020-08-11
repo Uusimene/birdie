@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 
 import com.example.birdiediscgolf.R
-import kotlinx.android.synthetic.main.fragment_game.*
 
 class gameFragment : Fragment() {
-
+    //
+    internal lateinit var callback: OnScoreSelectedListener
 
     private lateinit var viewModel: GameViewModel
     private val numberButtons = mutableListOf<Button>()
@@ -25,6 +25,15 @@ class gameFragment : Fragment() {
     private var score = 0
     private var selectedButtonTag = "0"
 
+    //
+    fun setOnScoreSelectedListener(callback: OnScoreSelectedListener) {
+        this.callback = callback
+    }
+
+    interface OnScoreSelectedListener {
+        fun onScoreSelected(score: Int, hole: Int)
+    }
+    //
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,7 +150,9 @@ class gameFragment : Fragment() {
                 break
             }
         }
-        Toast.makeText(activity, "score: $score   selectedButtonTag: $selectedButtonTag", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, "score: $score   selectedButtonTag: $selectedButtonTag", Toast.LENGTH_SHORT).show()
+        callback.onScoreSelected(score, arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+
     }
 
     private fun adjustButtonNumbers(tag: String){
