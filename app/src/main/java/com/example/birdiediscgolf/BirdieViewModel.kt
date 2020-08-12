@@ -66,7 +66,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         //repository.updateHoleRecord(holeUuid, score)
     }
 
-    private fun insertPlayer(player: Player) = viewModelScope.launch {
+    fun insertPlayer(player: Player) = viewModelScope.launch {
         repository.insertPlayer(player)
     }
 

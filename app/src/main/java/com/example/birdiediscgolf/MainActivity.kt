@@ -18,8 +18,10 @@ import androidx.lifecycle.ViewModelProvider
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
+import java.util.*
+import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AddPlayerDialog.DialogListener {
 
 //    private val newWordActivityRequestCode = 1
 //    private lateinit var wordViewModel: TestViewModel
@@ -35,6 +37,11 @@ class MainActivity : AppCompatActivity() {
                 val gamesButton: Button = findViewById(R.id.gamesButton)
                 val buttonText = "Games $it"
                 gamesButton.text = buttonText}
+        })
+        birdieViewModel.allPlayers.observe(this, Observer { players ->
+                if (players.isEmpty()) {
+                    openAddPlayerDialog()
+                }
         })
 //        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
 //        val adapter = TestListAdapter(this)
@@ -227,6 +234,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun openAddPlayerDialog() {
+        val addPlayerDialog = AddPlayerDialog()
+        addPlayerDialog.show(supportFragmentManager, "diggoo")
+    }
+
+    override fun getDialogInput(playerName: String) {
+        super.getDialogInput(playerName)
+        val player = Player(UUID.randomUUID().toString(), System.currentTimeMillis(), 0, playerName, 1, null, null)
+        birdieViewModel.insertPlayer(player)
+        Toast.makeText(applicationContext, playerName, Toast.LENGTH_SHORT).show()
     }
 
 }

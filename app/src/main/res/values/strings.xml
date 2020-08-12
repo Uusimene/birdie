@@ -13,6 +13,7 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="course_statistics">Course Statistics</string>
     <string name="addCourseDialogText">Course name</string>
+    <string name="addPlayerDialogText">Player name</string>
     <string name="holeCount">How many holes?</string>
     <string name="endGame">End game</string>
     <string name="changePar">Change par</string>

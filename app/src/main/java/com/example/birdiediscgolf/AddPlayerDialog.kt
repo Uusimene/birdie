@@ -1,6 +1,5 @@
 package com.example.birdiediscgolf
 
-
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -8,13 +7,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
-import android.widget.NumberPicker
 import androidx.appcompat.app.AppCompatDialogFragment
 
-class AddCourseDialog : AppCompatDialogFragment() {
-    lateinit var courseNameEditText: EditText
-    lateinit var holeCountNumberPicker: NumberPicker
-    lateinit var listener: DialogListener
+class AddPlayerDialog : AppCompatDialogFragment() {
+    lateinit var playerNameEditText: EditText
+    lateinit var listener: AddPlayerDialog.DialogListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity, R.style.AlertDialogTheme)
@@ -25,24 +22,18 @@ class AddCourseDialog : AppCompatDialogFragment() {
 
         val view: View
         if (inflater != null) {
-            view = inflater.inflate(R.layout.dialog_layout_add_course, null)
-            courseNameEditText = view.findViewById(R.id.edit_courseName)
-            holeCountNumberPicker = view.findViewById(R.id.edit_holeCount)
+            view = inflater.inflate(R.layout.dialog_layout_add_player, null)
+            playerNameEditText = view.findViewById(R.id.edit_playerName)
 
             builder.setView(view)
-                .setTitle("Add new course")
+                .setTitle("Add new player")
                 .setNegativeButton("Cancel"){dialog, which ->
 
                 }
                 .setPositiveButton("Continue"){dialog, which ->
-                    val courseName = courseNameEditText.text.toString()
-                    val holeCount = holeCountNumberPicker.value
-                    listener.getDialogInput(courseName, holeCount)
+                    val playerName = playerNameEditText.text.toString()
+                    listener.getDialogInput(playerName)
                 }
-            holeCountNumberPicker.minValue = 1
-            holeCountNumberPicker.maxValue = 50
-            holeCountNumberPicker.value = 9
-            holeCountNumberPicker.wrapSelectorWheel = false
         }
 
 
@@ -60,7 +51,7 @@ class AddCourseDialog : AppCompatDialogFragment() {
     }
 
     interface DialogListener {
-        fun getDialogInput(courseName: String, holeCount: Int) {
+        fun getDialogInput(playerName: String) {
 
         }
     }
