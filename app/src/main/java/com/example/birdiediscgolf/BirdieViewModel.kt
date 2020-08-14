@@ -3,8 +3,8 @@ package com.example.birdiediscgolf
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
@@ -29,6 +29,12 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         allPlayers = repository.allPlayers
         allCourseAndHoles = repository.allCourseAndHoles
         allGamesData = repository.allGameData
+    }
+
+    fun clearDatabase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            BirdieRoomDatabase.getDatabase(getApplication(), viewModelScope).clearAllTables()
+        }
     }
 
     private fun insertCourse(course: Course) = viewModelScope.launch {

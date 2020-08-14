@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), AddPlayerDialog.DialogListener {
                 gamesButton.text = buttonText}
         })
         birdieViewModel.allPlayers.observe(this, Observer { players ->
+            // TODO: This gets called after importing data, obviously not ideal
                 if (players.isEmpty()) {
                     openAddPlayerDialog()
                 }
@@ -87,11 +88,13 @@ class MainActivity : AppCompatActivity(), AddPlayerDialog.DialogListener {
         when(item.itemId) {
             R.id.importData -> {
                 //Toast.makeText(applicationContext, "Import Data Pressed", Toast.LENGTH_SHORT).show()
+                // TODO: Dialog explaining this will delete all existing data if files are chosen
                 openFile()
                 return true
             }
             R.id.exportData -> {
-                Toast.makeText(applicationContext, "Export TODO", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "EXPORT TODO, cleared db instead :D", Toast.LENGTH_SHORT).show()
+                birdieViewModel.clearDatabase()
                 return true
             }
             else -> {
@@ -132,6 +135,7 @@ class MainActivity : AppCompatActivity(), AddPlayerDialog.DialogListener {
         {
             if (resultCode == Activity.RESULT_OK)
             {
+                birdieViewModel.clearDatabase()
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
                     Toast.makeText(applicationContext, "No permission", Toast.LENGTH_LONG).show()
                     return
