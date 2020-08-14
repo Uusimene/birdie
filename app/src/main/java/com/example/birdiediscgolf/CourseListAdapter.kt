@@ -69,7 +69,9 @@ class CourseListAdapter internal constructor(context: Context) : RecyclerView.Ad
         for (i in gameScores.indices)
         {
             val hole = holes.find { hole -> hole.uuid == gameScores[i].gameHoleUuid }
-            val score = gameScores[i].score
+            if (gameScores[i].score == -1) {
+                return 999
+            }
             result += gameScores[i].score - hole!!.par
         }
 

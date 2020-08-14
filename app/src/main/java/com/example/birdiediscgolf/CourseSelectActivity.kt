@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import java.util.*
 
 class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.DialogListener{
 
@@ -60,6 +61,14 @@ class CourseSelectActivity : AppCompatActivity(), AddCourseDialog.DialogListener
 
     override fun getDialogInput(courseName: String, holeCount: Int) {
         super.getDialogInput(courseName, holeCount)
+        val timeStamp = System.currentTimeMillis()
+        val course = Course(UUID.randomUUID().toString(), 0, courseName, timeStamp, -1)
+        val holes = mutableListOf<Hole>()
+        for (i in 1..holeCount) {
+            holes.add(Hole(UUID.randomUUID().toString(), course.uuid, timeStamp, i, 0, 3, 0,-1))
+        }
+        birdieViewModel.insertCourse(course)
+        birdieViewModel.insertHoles(holes)
         Toast.makeText(applicationContext, courseName + holeCount.toString(), Toast.LENGTH_LONG).show()
     }
 }

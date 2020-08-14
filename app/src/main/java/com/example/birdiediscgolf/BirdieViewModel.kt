@@ -37,7 +37,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private fun insertCourse(course: Course) = viewModelScope.launch {
+    fun insertCourse(course: Course) = viewModelScope.launch {
         repository.insertCourse(course)
     }
 
@@ -49,7 +49,7 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         repository.insertHole(hole)
     }
 
-    private fun insertHoles(holes: List<Hole>) = viewModelScope.launch {
+    fun insertHoles(holes: List<Hole>) = viewModelScope.launch {
         repository.insertHoles(holes)
     }
 

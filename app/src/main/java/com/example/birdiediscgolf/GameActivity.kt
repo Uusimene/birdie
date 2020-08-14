@@ -55,7 +55,7 @@ class GameActivity : AppCompatActivity(), gameFragment.OnScoreSelectedListener {
         gameHoles = tempGameHoles
         val tempScores = mutableListOf<Score>()
         gameHoles.forEach {
-            val tempScore = Score(UUID.randomUUID().toString(), currentTimeStamp, it.uuid, player.uuid, game.uuid, it.id, 0)
+            val tempScore = Score(UUID.randomUUID().toString(), currentTimeStamp, it.uuid, gamePlayer.uuid, game.uuid, it.id, -1)
             tempScores.add(tempScore)
         }
         scores = tempScores
