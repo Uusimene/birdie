@@ -14,7 +14,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import java.util.*
 
-class GameActivity : AppCompatActivity(), gameFragment.OnScoreSelectedListener {
+class GameActivity : AppCompatActivity(), gameFragment.OnScoreSelectedListener, ChangeParDialog.DialogListener {
 
     private lateinit var birdieViewModel: BirdieViewModel
 
@@ -26,6 +26,8 @@ class GameActivity : AppCompatActivity(), gameFragment.OnScoreSelectedListener {
     lateinit var course: Course
     lateinit var holes: List<Hole>
     lateinit var player: Player
+
+    lateinit var tabs: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,9 +71,8 @@ class GameActivity : AppCompatActivity(), gameFragment.OnScoreSelectedListener {
         sectionsPagerAdapter.setCourseScores(courseAndHoles)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.tabs)
+        tabs = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -83,7 +84,7 @@ class GameActivity : AppCompatActivity(), gameFragment.OnScoreSelectedListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.endGame -> saveRound()
-            R.id.changePar -> Toast.makeText(applicationContext, "change par pressed", Toast.LENGTH_SHORT).show()
+            R.id.changePar -> openChangeParDialog()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -100,12 +101,24 @@ class GameActivity : AppCompatActivity(), gameFragment.OnScoreSelectedListener {
         scores[hole - 1].score = score
     }
 
+    override fun getDialogInput(par: Int) {
+        super.getDialogInput(par)
+        val currentHoleIndex = tabs.selectedTabPosition
+        val hole = holes[currentHoleIndex]
+        birdieViewModel.updateHolePar(hole.uuid, par)
+    }
+
     private fun saveRound() {
         game.endedAt = System.currentTimeMillis()
         birdieViewModel.insertGame(game)
         birdieViewModel.insertGameHoles(gameHoles)
         birdieViewModel.insertGamePlayer(gamePlayer)
         birdieViewModel.insertScores(scores)
+    }
+
+    private fun openChangeParDialog() {
+        val changeParDialog = ChangeParDialog()
+        changeParDialog.show(supportFragmentManager, "diggoo")
     }
 
 }

@@ -84,4 +84,9 @@ class BirdieRepository(private val coursesDao: CoursesDao, private val playersDa
         return playersDao.getOwnerPlayer()
     }
 
+    suspend fun updateHolePar(holeUuid: String, par: Int) {
+        val timeStamp = System.currentTimeMillis()
+        coursesDao.updateHolePar(holeUuid, par, timeStamp)
+    }
+
 }

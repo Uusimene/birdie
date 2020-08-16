@@ -30,6 +30,9 @@ interface CoursesDao {
     @Query("DELETE FROM holes")
     suspend fun deleteAllHoles()
 
+    @Query("UPDATE holes SET par = :par, updatedAt = :timeStamp WHERE uuid = :holeUuid")
+    suspend fun updateHolePar(holeUuid: String, par: Int, timeStamp: Long)
+
     @Transaction
     suspend fun insertCourses(courses: List<Course>) {
         for (course in courses) {

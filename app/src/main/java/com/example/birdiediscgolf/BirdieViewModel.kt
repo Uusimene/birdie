@@ -37,6 +37,10 @@ class BirdieViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun updateHolePar(holeUuid: String, par: Int) = viewModelScope.launch {
+        repository.updateHolePar(holeUuid, par)
+    }
+
     fun insertCourse(course: Course) = viewModelScope.launch {
         repository.insertCourse(course)
     }
